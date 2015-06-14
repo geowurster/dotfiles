@@ -1,0 +1,31 @@
+# Print Python module's version by probing module level variables
+
+
+if [[ $# -ne 1 ]]; then
+    echo "Attempts to print a Python module's version."
+    echo ""
+    echo "Usage: module-name"
+    return 1
+fi
+
+
+python3 -c "
+from __future__ import print_function
+
+import sys
+
+try:
+    import $1
+except ImportError as e:
+    print('Error: {}'.format(str(e)), file=sys.stderr)
+    exit(1)
+
+
+for attr in ('__version__', 'version', 'VERSION', 'Version'):
+    if hasattr($1, attr):
+        print(getattr($1, attr))
+        break
+else:
+    print('ERROR: Could not find a version attribute for $1', file=sys.stderr)
+    exit(1)
+"
