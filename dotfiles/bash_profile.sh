@@ -85,6 +85,7 @@ if [ -e $(which virtualenv) ]; then
 
 fi
 
+
 # =========================================================================== #    
 #   Homebrew Modifications
 # =========================================================================== #
@@ -106,6 +107,7 @@ if [ -x "`which brew 2> /dev/null`" ]; then
         export PATH="${_DIR}:${PATH}"
     fi
 fi
+
 
 # =========================================================================== #
 #   GDAL Environment
@@ -153,18 +155,26 @@ import sys
 for attr in ('__version__', 'version', 'VERSION', 'Version'):
     if hasattr($1, attr):
         print(getattr($1, attr))
-        exit(0)
+        sys.exit(0)
 else:
     print('ERROR: Could not find a version attribute for $1')
-    exit(1)
+    sys.exit(1)
 """
     fi
+}
 
+function pywhich(){
+
+    if [ $# -ne 1 ]; then
+        echo "Usage: module_name"
+    else
+        python -c "import $1; print($1.__file__)"
+    fi
 }
 
 # Alert the user if they're using system python
 if [ $(which python) == "/usr/bin/python" ] && [ $(uname) == "Darwin" ]; then
-    echo "WARNING: Using system Python"
+    echo "WARNING: Using system Python on a Mac."
 fi
 
 
