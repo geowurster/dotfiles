@@ -1,0 +1,11 @@
+# Jetbrains IDEA based editors
+.idea/
+.pycharm_helpers/
+
+# Dev scripts
+buh.py
+buh.sh
+
+# A reliable place to dump assorted dev files
+ignore/
+

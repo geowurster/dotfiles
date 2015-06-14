@@ -1,0 +1,8 @@
+tap "osgeo/osgeo4mac"
+tap "caskroom/cask"
+
+cask "xquartz"
+
+brew "gdal2"
+brew "gdal2-python", args:["build-from-source"]
+brew "qgis-ltr@2.18"

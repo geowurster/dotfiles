@@ -1,0 +1,7 @@
+*.pyc
+.idea/
+*.pyc
+.DS_Store
+venv*/
+.cache
+work/

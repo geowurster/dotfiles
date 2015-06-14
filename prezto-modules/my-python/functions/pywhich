@@ -1,0 +1,24 @@
+# Print the absolute file path to a Python module
+
+
+if [[ $# -ne 1 ]]; then
+    echo "Print the path to a Python module."
+    echo ""
+    echo "Usage: module_name"
+    return 1
+fi
+
+
+python3 -c "
+
+from __future__ import print_function
+
+import sys
+
+try:
+    import $1
+    print($1.__file__)
+except Exception as e:
+    print('Error: {}'.format(str(e)), file=sys.stderr)
+    exit(1)
+"

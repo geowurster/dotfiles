@@ -1,0 +1,28 @@
+# Invoke $EDITOR inside of a pipe.
+#
+# Copy stdin to a tempfile and edit.
+#
+#   $ echo data | epipe
+#
+# or edit an empty tempfile
+#
+#   $ epipe
+#
+# In both cases the tempfile is automatically deleted.
+
+
+TMPFILE=$(mktemp)
+
+
+# Check if stdin has data.
+if [[ ! -t 0 ]]; then
+    cp /dev/stdin "$TMPFILE" || return 1
+fi
+
+
+"${EDITOR}" "$TMPFILE" < /dev/tty > /dev/tty || return 1
+
+
+cat "$TMPFILE" || return 1
+
+rm "$TMPFILE" || return 1
