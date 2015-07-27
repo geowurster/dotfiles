@@ -1,26 +1,24 @@
 #!/bin/bash
 
 
+# =========================================================================== #
+#   Homebrew
+# =========================================================================== #
+
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
-
-# Run make jobs on all cores
 export HOMEBREW_MAKE_JOBS=$(getconf _NPROCESSORS_ONLN)
 
-
-# =========================================================================== #
-#   Easy installs
-# =========================================================================== #
+brew update
 
 brew install \
     wget \
     jq \
+    ruby \
+    pyenv \
     git --with-brewed-curl --with-brewed-openssl --with-brewed-svn
 
-
-# =========================================================================== #
-#   More complicated installs
-# =========================================================================== #
+brew install numpy
 
 brew install gdal \
     --with-armadillo \
@@ -37,3 +35,42 @@ _FT2="/usr/local/include/freetype2"
 if [ -e "${_FT2}" ] && [ ! -e "${_FT1}" ] && [ -w "$(dirname ${_FT2})" ]; then
     ln -s "${_FT2}" "${_FT1}"
 fi
+
+
+# =========================================================================== #
+#   Python
+# =========================================================================== #
+
+pyenv install 2.7.10
+pyenv rehash
+pyenv install 3.4.2
+pyenv rehash
+pyenv
+
+pip install --upgrade --no-cache \
+    pip \
+    setuptools \
+    virtualenv
+
+pip install --upgrade --no-cache \
+    cython \
+    numpy \
+    rasterio \
+    shapely \
+    fiona
+
+# GDAL python bindings
+if [[ $(gdal-config --version | cut -f 1 -d .) == "1" ]]; then
+    pip install "GDAL<2" --upgrade --no-cache
+elif [[ $(gdal-config --version | cut -f 1 -d .) == "2" ]]; then
+    pip install "GDAL<3" --upgrade --no-cache
+fi
+
+
+# =========================================================================== #
+#   Ruby
+# =========================================================================== #
+
+gem update --system
+
+gem install travis -v 1.8.0 --no-rdoc --no-ri
