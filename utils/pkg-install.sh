@@ -16,6 +16,8 @@ brew install \
     jq \
     ruby \
     pyenv \
+    zsh \
+    zsh-completions \
     git --with-brewed-curl --with-brewed-openssl --with-brewed-svn
 
 brew install numpy

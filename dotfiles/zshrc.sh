@@ -14,6 +14,11 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
+autoload -U compinit
+compinit
+
+fpath=(/usr/local/share/zsh-completions $fpath)
+
 
 # =========================================================================== #
 #   Enable commandline helpers
@@ -213,7 +218,7 @@ for attr in dir($1):
 #   Stuff that has to happen right at the very end
 # =========================================================================== #
 
-[[ -r "~/bin" ]] && export PATH="~/bin:${PATH}"
+[[ -r ~/bin ]] && export PATH=~/bin:"${PATH}"
 
 
 # =========================================================================== #
@@ -228,4 +233,4 @@ for attr in dir($1):
 #   Work
 # =========================================================================== #
 
-[[ -r "~/.work_zshrc" ]] && source "~/.work_zshrc"
+source ~/.work_zshrc
