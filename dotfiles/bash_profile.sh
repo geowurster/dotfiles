@@ -2,61 +2,28 @@
 
 
 # =========================================================================== #
-#   Modify {$PATH}
+#   Shell Modifications
 # =========================================================================== #
 
-_DIR=~/bin
-if [ -r "${_DIR}" ]; then
-    export PATH=${_DIR}:${PATH}
-fi
+[ ! -d ~/.local ] && mkdir -p ~/.local
+[ ! -d ~/.config ] && mkdir -p ~/.config
 
+[ -r "~/bin" ] && export PATH="~/bin:${PATH}"
 
-# =========================================================================== #
-#   Enable FS-Nav Shortcuts
-# =========================================================================== #
-
-# == Enable FS Nav shortcuts on startup == #
-if [ -x "$(which nav)" ]; then
-    eval $(nav startup generate)
-fi
-
-
-# =========================================================================== #
-#   Environment Modifications
-# =========================================================================== #
-
-_FILE=~/.bashrc
-if [ -r "${_FILE}" ]; then
-    source "${_FILE}"
-fi
-
-# Suppress pyin warnings if its installed
-if [ -e $(which pyin) ]; then
-    export PYIN_NO_WARN="I_read_the_rules_and_accept_the_consequences"
-fi
-
-# Homebrew installs freetype2 but not freetype, which some packages (like PIL) require - online sources recommend:
-# Make sure freetype2 is installed, make sure freetype1 does not exist, make sure target directory is writable
-_FT1="/usr/local/include/freetype"
-_FT2="/usr/local/include/freetype2"
-if [ -e "${_FT2}" ] && [ ! -e "${_FT1}"  ] && [ -w "$(dirname ${_FT2})" ]; then
-    ln -s "${_FT2}" "${_FT1}"
-fi
-_FT1=
-_FT2=
+[ -x "$(which nav)" ] && eval $(nav startup generate)
+[ -e $(which pyin) ] && export PYIN_NO_WARN="I_read_the_rules_and_accept_the_consequences"
 
 # It's mildly inconvenient to activate a virtual environment.  This function makes it easier
 if [ -e $(which virtualenv) ]; then
 
     function vactivate(){
 
-        USAGE="Usage: vactivate [path/to/venv]"
         DEFAULT_VENV="venv/bin/activate"
 
         # No arguments - look in current directory for 'venv'
         if [ $# -eq 0 ]; then
-            if [ -f "${DEFAULT_VENV}" ]; then
-                source "${DEFAULT_VENV}"
+            if [ -f ${DEFAULT_VENV} ]; then
+                source ${DEFAULT_VENV}
                 return 0
             else
                 echo "ERROR: Can't find venv: ${DEFAULT_VENV}"
@@ -66,7 +33,7 @@ if [ -e $(which virtualenv) ]; then
         # User supplied a venv - attempt to activate if it exists
         elif [ $# -eq 1 ]; then
             VENV="${1}/bin/activate"
-            if [ -f "${VENV}" ]; then
+            if [ -f ${VENV} ]; then
                 source ${VENV}
                 return 0
             else
@@ -77,12 +44,11 @@ if [ -e $(which virtualenv) ]; then
         # Too many arguments - print usage
         else
             echo ""
-            echo ${USAGE}
+            echo "Usage: vactivate [path/to/venv]"
             echo ""
             return 1
         fi
     }
-
 fi
 
 
@@ -90,22 +56,16 @@ fi
 #   Homebrew Modifications
 # =========================================================================== #
 
-if [ -x "`which brew 2> /dev/null`" ]; then
+if [ -x $(which brew 2> /dev/null) ]; then
 
     # All Homebrew make commands execute with 75% of computer's cores
     export HOMEBREW_MAKE_JOBS=$(printf %.0f $(echo "$(getconf _NPROCESSORS_ONLN) * 0.75" | bc))
 
     # Recommended by $(brew doctor)
-    _DIR="/usr/local/sbin"
-    if [ -r "${_DIR}" ]; then
-        export PATH="${_DIR}:${PATH}"
-    fi
+    [ -r "/usr/local/sbin" ] && export PATH="/usr/local/sbin:${PATH}"
 
     # Find Homebrew installed utilities first
-    _DIR="/usr/local/bin"
-    if [ -r "${_DIR}" ]; then
-        export PATH="${_DIR}:${PATH}"
-    fi
+    [ -r "/usr/local/bin" ] && export PATH="/usr/local/bin:${PATH}"
 fi
 
 
@@ -113,13 +73,12 @@ fi
 #   GDAL Environment
 # =========================================================================== #
 
-if [ -x "`which gdal-config 2> /dev/null`" ]; then
+if [ -x $(which gdal-config 2> /dev/null) ]; then
 
     # Let GDAL find additional drivers
     _DIR="/usr/local/lib/gdalplugins"
-    if [ -r "${_DIR}" ]; then
-        export GDAL_DRIVER_PATH="${_DIR}"
-    fi
+    [ -d "/usr/local/lib/gdalplugins" ] && mkdir -p ${_DIR} && export GDAL_DRIVER_PATH="${_DIR}"
+    unset _DIR
 
     # Set max GDAL cache to 1/4 available RAM
     export GDAL_CACHEMAX=$(printf %.0f $(echo "$(sysctl -n hw.memsize) / 1000 / 1000 / 4" | bc))
@@ -130,25 +89,44 @@ fi
 #   Python modifications
 # =========================================================================== #
 
+# Alert if using system python
+if [ $(which python) == "/usr/bin/python" ] && [ $(uname) == "Darwin" ]; then
+    echo ""
+    echo "=============================================="
+    echo "    WARNING: Using system Python on a Mac"
+    echo "=============================================="
+    echo ""
+
+# Make sure pip is pointing to the right place
+elif [ $(uname) == "Darwin" ]; then
+
+    # So many `dirname`s ... THERE HAS GOT TO BE A BETTER WAY!
+    export PYTHONUSERBASE="$(dirname $(dirname $(dirname $(which python))/$(readlink $(which python))))"
+    _V=$(python --version 2>&1 | sed 's/Python //g' | sed 's/\.[^.]*$//')
+    export PYTHONUSERSITE="/usr/local/lib/python${_V}/site-packages"
+    unset _V
+
+# Environment should be vanilla forw hatever system this is runnign on
+else
+    echo "Warning: Python environment is unknown and may be jacked."
+
+fi
+
+
 # Get help on any object
 function pyhelp(){
 
-    if [ $# -ne 1 ]; then
-        echo "Usage: module.package.object"
-    else
-        python -c "help('''$@''')"
-    fi
+    [ $# -ne 1 ] && echo "Usage: module.package.object" && return 1
 
-
+    python -c "help('''$1''')"
 }
 
 # Try to get the version of a module
 function pyversion(){
 
-    if [ $# -ne 1 ]; then
-        echo "Usage: module_name"
-    else
-        python -c """
+    [ $# -ne 1 ] && echo "Usage: module_name" && return 1
+
+    python -c """
 import $1
 import sys
 
@@ -160,42 +138,54 @@ else:
     print('ERROR: Could not find a version attribute for $1')
     sys.exit(1)
 """
-    fi
 }
 
 function pywhich(){
 
-    if [ $# -ne 1 ]; then
-        echo "Usage: module_name"
-    else
-        python -c "import $1; print($1.__file__)"
-    fi
+    [ $# -ne 1 ] && echo "Usage: module_name" && return 1
+
+    python -c "import $1; print($1.__file__)"
 }
 
-# Alert the user if they're using system python
-if [ $(which python) == "/usr/bin/python" ] && [ $(uname) == "Darwin" ]; then
-    echo "WARNING: Using system Python on a Mac."
-fi
+function pydir(){
+
+    [ $# -ne 1 ] && echo "Usage: object" && return 1
+
+    python -c "
+import re
 
 
-# =========================================================================== #    
-#   Activate '.work_bash_profile' and '.work_bash_rc' if they exist
+# Import logic borrowed from https://github.com/Russell91/pythonpy
+def import_matches(query, prefix=''):
+    matches = set(re.findall(r'(%s[a-zA-Z_][a-zA-Z0-9_]*)\.?' % prefix, query))
+    for module_name in matches:
+        try:
+            module = __import__(module_name)
+            globals()[module_name] = module
+            import_matches(query, prefix='%s.' % module_name)
+        except ImportError as e:
+            pass
+
+
+import_matches('$1')
+
+
+for attr in dir($1):
+    print(attr)
+        "
+}
+
+
+# =========================================================================== #
+#   Remote connections
 # =========================================================================== #
 
-# Work specific bash profile and bashrc
-_FILE=~/.work_bash_profile
-if [ -r ${_FILE} ]; then
-    source ${_FILE}
-fi
-_FILE=~/.work_bashrc
-if [ -r ${_FILE} ]; then
-    source ${_FILE}
-fi
+[ -r "~/.bashrc" ] && source "~/.bashrc"
 
 
 # =========================================================================== #
-#   Cleanup
+#   Work related nonsense
 # =========================================================================== #
 
-_DIR=
-_FILE=
+[ -r "~/.work_bash_profile" ] && source "~/.work_bash_profile"
+[ -r "~/.work_bashrc" ] && source "~/.work_bashrc"
