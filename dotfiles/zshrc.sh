@@ -14,6 +14,8 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
+export EDITOR='vim'
+
 autoload -U compinit
 compinit
 
@@ -219,6 +221,8 @@ for attr in dir($1):
 # =========================================================================== #
 
 [[ -r ~/bin ]] && export PATH=~/bin:"${PATH}"
+
+export PATH="$PYENV_ROOT/bin:$PATH"
 
 
 # =========================================================================== #
