@@ -237,4 +237,4 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 #   Work
 # =========================================================================== #
 
-source ~/.work_zshrc
+source ~/.work_zshrc 2> /dev/null
