@@ -214,6 +214,21 @@ for attr in dir($1):
 
 
 # =========================================================================== #
+#   Missing *nix commands
+# =========================================================================== #
+
+if [ ! -e "$(which nproc)" ]; then
+    function nproc() {
+        if [ $# -gt 0 ]; then
+            echo "System doesn't have 'nproc' - this is a Python stub that doesn't take arguments."
+            return 1
+        fi
+        python -c "from multiprocessing import cpu_count; print(cpu_count())"
+    }
+fi
+
+
+# =========================================================================== #
 #   Stuff that has to happen right at the very end
 # =========================================================================== #
 
