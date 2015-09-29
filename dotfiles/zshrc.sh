@@ -35,9 +35,6 @@ fpath=(/usr/local/share/zsh-completions $fpath)
 # pyenv
 if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 
-# pyin
-[[ -e $(which pyin) ]] && export PYIN_NO_WARN="I_read_the_rules_and_accept_the_consequences"
-
 
 # =========================================================================== #
 #   Homebrew Environment
