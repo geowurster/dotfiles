@@ -98,8 +98,8 @@ if [ -x "$(which virtualenv)" ]; then
 
         # No arguments - look in current directory for 'venv'
         if [ $# -eq 0 ];  then
-            if [ -d "${DEFAULT_VENV}" ];  then
-                source ${DEFAULT_VENV}
+            if [ -f "${DEFAULT_VENV}" ];  then
+                source "${DEFAULT_VENV}"
                 return 0
             else
                 echo "ERROR: Can't find venv: ${DEFAULT_VENV}"
