@@ -11,11 +11,8 @@ if [[ "$SHLVL" -eq 1 && ! -o LOGIN && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
 fi
 
 
-# Make sure some unix dirs always exist
-[[ ! -d ~/bin ]] && mkdir -p ~/bin
-[[ ! -d ~/.config ]] && mkdir -p ~/.config
-
-
 # pyenv
-export PYENV_ROOT=/usr/local/opt/pyenv
-export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
+if [ -x "$(which pyenv)" ]; then
+    export PYENV_ROOT=/usr/local/opt/pyenv
+    export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
+fi
