@@ -1,4 +1,4 @@
 #!/bin/bash
 
 
-ln -s $(pwd)/config/pep8 ~/.config/pep8
+ln -s $(pwd)/config/pep8 "${HOME}/.config/pep8"
