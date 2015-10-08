@@ -98,7 +98,7 @@ if [ -x "$(which virtualenv)" ]; then
 
         # No arguments - look in current directory for 'venv'
         if [ $# -eq 0 ];  then
-            if [ -f "${DEFAULT_VENV}" ];  then
+            if [ -d "${DEFAULT_VENV}" ];  then
                 source "${DEFAULT_VENV}"
                 return 0
             else
@@ -109,7 +109,7 @@ if [ -x "$(which virtualenv)" ]; then
         # User supplied a venv - attempt to activate if it exists
         elif [ $# -eq 1 ];  then
             VENV="${1}/bin/activate"
-            if [ -d "${VENV}" ];  then
+            if [ -f "${VENV}" ];  then
                 source ${VENV}
                 return 0
             else
