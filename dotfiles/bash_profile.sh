@@ -8,7 +8,7 @@
 #   Missing *nix commands and directories
 # =========================================================================== #
 
-if [ ! -a "$(which nproc)" ]; then
+if [ ! -f "$(which nproc)" ]; then
     function nproc() {
         if [ $# -gt 0 ]; then
             echo "System doesn't have 'nproc' - this is a stub function that doesn't take args."
