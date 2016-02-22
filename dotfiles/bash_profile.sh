@@ -214,6 +214,32 @@ for attr in dir($1):
 
 
 # =========================================================================== #
+#   Web shortcuts
+# =========================================================================== #
+
+
+function gh() {
+
+    # Open github.com and optionally an org and/or repo
+
+    URL="https://github.com"
+    if [ $# -eq 0 ]; then
+        :
+    elif [ $# -eq 1 ]; then
+        URL+="/${1}"
+    elif [ $# -eq 2 ]; then
+        URL+="/${1}/${2}"
+    else:
+        echo "Usage: gh [org] [repo]"
+        exit 1
+    fi
+
+    open "${URL}"
+
+}
+
+
+# =========================================================================== #
 #   Stuff that has to happen right at the very end
 # =========================================================================== #
 
