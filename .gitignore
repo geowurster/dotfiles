@@ -1,4 +1,5 @@
 *.pyc
-.idea
+.idea/
 *.pyc
 .DS_Store
+venv*/
