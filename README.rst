@@ -1,6 +1,8 @@
 Environment
 ===========
 
+[![Build Status](https://travis-ci.org/geowurster/Environment.svg?branch=master)](https://travis-ci.org/geowurster/Environment)
+
 Source order: ``.zshrc`` -> ``.bash_profile`` -> ``.work_bash_profile``,
 followed by a ``.workzshrc``.  The ``.bashrc`` is handled by the system but
 also sources a ``.work_bashrc``.
