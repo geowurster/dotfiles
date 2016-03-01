@@ -26,14 +26,8 @@ fi
 #   Enable commandline helpers
 # =========================================================================== #
 
-# Enable FS-Nav
-[ -x "$(which nav)" ] && eval "$(nav startup generate)"
-
 # Enable Travis-CI CLI
 [ -f "${HOME}/.travis/travis.sh" ] && source "${HOME}/.travis/travis.sh"
-
-# pyenv
-[ -x "$(which pyenv)" ] && eval "$(pyenv init -)"
 
 
 # =========================================================================== #
