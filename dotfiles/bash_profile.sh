@@ -64,8 +64,15 @@ fi
 
 
 # =========================================================================== #
-#   Set Python executable, environment, and helper functions
+#   Set Python path, executable, environment, and helper functions
 # =========================================================================== #
+
+# For `$ pip install --user`
+if [ $(uname) = "Darwin" ]; then
+    _PY_PROF_V=$(python -c "import sys; print('.'.join(map(str, sys.version_info[:2])))")
+    export PATH="${HOME}/Library/Python/${_PY_PROF_V}/bin:${PATH}"
+fi
+
 
 # Alert if using system python
 if [ "$(which python)" = "/usr/bin/python" ] && [ "$(uname)" = "Darwin" ];  then
