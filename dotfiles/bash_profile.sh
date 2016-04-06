@@ -91,45 +91,42 @@ fi
 
 
 # It's mildly inconvenient to activate a virtual environment.  This is easier.
-if [ -x "$(which virtualenv)" ]; then
+function vactivate(){
 
-    function vactivate(){
+    DEFAULT_VENV="venv/bin/activate"
 
-        DEFAULT_VENV="venv/bin/activate"
-
-        # No arguments - look in current directory for 'venv'
-        if [ $# -eq 0 ];  then
-            if [ -f "${DEFAULT_VENV}" ];  then
-                source "${DEFAULT_VENV}"
-                return 0
-            else
-                echo "ERROR: Can't find venv: ${DEFAULT_VENV}"
-                return 1
-            fi
-
-        # User supplied a venv - attempt to activate if it exists
-        elif [ $# -eq 1 ];  then
-            VENV="${1}/bin/activate"
-            if [ -f "${VENV}" ];  then
-                source ${VENV}
-                return 0
-            else
-                echo "ERROR: Can't find : ${VENV}"
-                return 1
-            fi
-
-        # Too many arguments - print usage
+    # No arguments - look in current directory for 'venv'
+    if [ $# -eq 0 ];  then
+        if [ -f "${DEFAULT_VENV}" ];  then
+            source "${DEFAULT_VENV}"
+            return 0
         else
-            echo ""
-            echo "Usage: vactivate [path/to/venv]"
-            echo ""
+            echo "ERROR: Can't find venv: ${DEFAULT_VENV}"
             return 1
         fi
-    }
-fi
+
+    # User supplied a venv - attempt to activate if it exists
+    elif [ $# -eq 1 ];  then
+        VENV="${1}/bin/activate"
+        if [ -f "${VENV}" ];  then
+            source ${VENV}
+            return 0
+        else
+            echo "ERROR: Can't find : ${VENV}"
+            return 1
+        fi
+
+    # Too many arguments - print usage
+    else
+        echo ""
+        echo "Usage: vactivate [path/to/venv]"
+        echo ""
+        return 1
+    fi
+}
 
 
-# Get help on any object
+# Get help on any python object
 function pyhelp(){
 
     if [ $# -ne 1 ]; then
