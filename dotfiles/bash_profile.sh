@@ -44,6 +44,9 @@ if [ "$(which brew)" ];  then
 
     # Find Homebrew installed utilities first
     [ -d "/usr/local/bin" ] && export PATH="/usr/local/bin:${PATH}"
+
+    # Disable analytics
+    export HOMEBREW_NO_ANALYTICS=1
 fi
 
 
