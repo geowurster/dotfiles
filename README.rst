@@ -59,3 +59,7 @@ but this creates some gross output:
                 2015-01-04
 
 Wrap the string in ``textwrap.dedent()`` for better results.
+
+### Disabling the double dash to em dash conversion in Slack ###
+
+https://twitter.com/slackhq/status/528316204415746048
