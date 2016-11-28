@@ -143,6 +143,7 @@ function pyhelp(){
 }
 
 
+# Print Python module's version by probing module level variables
 function pyversion(){
 
     if [ $# -ne 1 ]; then
@@ -167,6 +168,7 @@ else:
 }
 
 
+# Print the path to a Python module
 function pywhich(){
 
     if [ $# -ne 1 ]; then
@@ -180,6 +182,7 @@ function pywhich(){
 }
 
 
+# Print a Python object's attributes
 function pydir(){
 
     if [ $# -ne 1 ]; then
@@ -211,6 +214,28 @@ import_matches('$1')
 for attr in dir($1):
     print(attr)
 "
+}
+
+
+# Print a Python object's source code.  Probably not super robust.
+function pyinsp(){
+
+    if [ ! -x "$(which pyin)" ]; then
+        echo "Requires '$ pyin'".
+        echo "    $ pip install pyin --user"
+        exit 1
+    elif [ $# -ne 1 ]; then
+        echo "Print a Python object's attributes.  Requires '$ pyin'."
+        echo ""
+        echo "Usage: module.object"
+        return 1
+    fi
+
+    echo "" | pyin \
+        "${1}" \
+        "inspect.getsourcelines(line)[0]" \
+        "''.join(line)" \
+        "textwrap.dedent(line)"
 }
 
 
