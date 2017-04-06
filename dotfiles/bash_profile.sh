@@ -4,6 +4,13 @@
 # This file is also source by .zshrc
 
 
+if [ -x $(which vim) ]; then
+    export EDITOR="vim"
+else
+    export EDITOR="vi"
+fi
+
+
 # =========================================================================== #
 #   Missing *nix commands and directories
 # =========================================================================== #
