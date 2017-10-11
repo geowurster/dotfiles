@@ -225,24 +225,29 @@ for attr in dir($1):
 
 
 # Print a Python object's source code.  Probably not super robust.
-function pyinsp(){
+function pysrc {
 
-    if [ ! -x "$(which pyin)" ]; then
-        echo "Requires '$ pyin'".
-        echo "    $ pip install pyin --user"
-        exit 1
-    elif [ $# -ne 1 ]; then
-        echo "Print a Python object's attributes.  Requires '$ pyin'."
+    if [ $# -ne 1 ]; then
+        echo "Prints a Python object's source code."
         echo ""
-        echo "Usage: module.object"
+        echo "Usage: path.to.object"
         return 1
     fi
 
-    echo "" | pyin \
-        "${1}" \
-        "inspect.getsourcelines(line)[0]" \
-        "''.join(line)" \
-        "textwrap.dedent(line)"
+    python -c "
+from __future__ import print_function
+
+import inspect
+
+def importer(ipath):
+    if '.' not in ipath:
+        return __import__(ipath)
+    base, obj = ipath.rsplit('.', 1)
+    m = getattr(__import__(base, fromlist=[obj]), obj)
+    return m
+
+print(inspect.getsource(importer('$1')))
+"
 }
 
 
