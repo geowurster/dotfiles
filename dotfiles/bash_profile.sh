@@ -79,8 +79,8 @@ fi
 
 # For `$ pip install --user`
 if [ $(uname) = "Darwin" ]; then
-    _PY_PROF_V=$(python -c "import sys; print('.'.join(map(str, sys.version_info[:2])))")
-    export PATH="${HOME}/Library/Python/${_PY_PROF_V}/bin:${PATH}"
+    PY_USER_BIN=$(python -c "import os, site; print(os.path.join(site.getuserbase(), 'bin'))")
+    export PATH="${PY_USER_BIN}:${PATH}"
 fi
 
 
