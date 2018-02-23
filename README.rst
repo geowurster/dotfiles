@@ -90,6 +90,10 @@ Disabling the double dash to em dash conversion in Slack
 
 https://twitter.com/slackhq/status/528316204415746048
 
+Text from tweet:
+
+   Yeah... that's an OS X thing. Edit -> Substitutions -> Smart Dashes will turn it off.
+
 
 ssh agent forwarding
 ~~~~~~~~~~~~~~~~~~~~
