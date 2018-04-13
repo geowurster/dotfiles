@@ -80,6 +80,7 @@ if [ -x "$(which gdal-config)" ];  then
     esac
     export GDAL_CACHEMAX
 
+    # Required to properly install some packages that depend on GDAL
     export GDAL_DATA="$(gdal-config --datadir)"
 fi
 
