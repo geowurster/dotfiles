@@ -66,8 +66,19 @@ if [ -x "$(which gdal-config)" ];  then
     # Let GDAL find additional drivers
     [ -d "/usr/local/lib/gdalplugins" ] && export GDAL_DRIVER_PATH="/usr/local/lib/gdalplugins"
 
-    # 1/4 available RAM
-    export GDAL_CACHEMAX=$(printf %.0f $(echo "$(sysctl -n hw.memsize) / 1000 / 1000 / 4" | bc))
+    # Let GDAL use 1/4 available RAM
+    case $(uname) in
+        Darwin)
+            GDAL_CACHEMAX=$(sysctl -n hw.memsize | awk '{print $1 / 1024 / 1024 / 4}')
+            ;;
+        Linux)
+            GDAL_CACHEMAX=$(($(getconf _PHYS_PAGES) * $(getconf PAGE_SIZE) / (1024 * 1024)))
+            ;;
+        *)
+            GDAL_CACHEMAX="ELSE"
+            ;;
+    esac
+    export GDAL_CACHEMAX
 
     export GDAL_DATA="$(gdal-config --datadir)"
 fi
