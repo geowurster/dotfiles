@@ -78,10 +78,8 @@ fi
 # =========================================================================== #
 
 # For `$ pip install --user`
-if [ $(uname) = "Darwin" ]; then
-    PY_USER_BIN=$(python -c "import os, site; print(os.path.join(site.getuserbase(), 'bin'))")
-    export PATH="${PY_USER_BIN}:${PATH}"
-fi
+PY_USER_BIN=$(python -c "import os, site; print(os.path.join(site.getuserbase(), 'bin'))")
+export PATH="${PY_USER_BIN}:${PATH}"
 
 
 # Alert if using system python
