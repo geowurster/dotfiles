@@ -12,7 +12,7 @@ fi
 
 
 # pyenv
-if [ -x "$(which pyenv)" ]; then
+if [ -x $(which pyenv) ]; then
     export PYENV_ROOT=/usr/local/opt/pyenv
     export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
 fi
