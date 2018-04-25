@@ -1,0 +1,28 @@
+#!/bin/bash
+
+
+# Sourced after zshenv and is intended to be used for interactive session setup.
+# Should contain functions, etc.
+
+
+# =========================================================================== #
+#   zsh config
+# =========================================================================== #
+
+# Source Prezto.
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
+
+autoload -U compinit
+compinit
+
+fpath=(/usr/local/share/zsh-completions $fpath)
+
+
+# Prompt for remote connections
+[ "${SSH_CLIENT}${SSH_TTY}${SSH_CONNECTION}" != "" ] && export PS1="<\h>:\W \u\$ "
+
+
+# Source private_zshrc if it exists
+[ -f "${HOME}/.private_zshrc" ] && source "${HOME}/.private_zshrc"
