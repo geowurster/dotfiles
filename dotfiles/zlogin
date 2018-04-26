@@ -21,3 +21,7 @@
     zcompile "$zcompdump"
   fi
 } &!
+
+
+# Put work specific configurations in '.work_zlogin'
+init-work "${0:A}"

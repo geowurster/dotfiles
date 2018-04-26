@@ -10,24 +10,17 @@
 # aliases, functions, options, key bindings, etc.
 
 
-# =========================================================================== #
-#   zsh config
-# =========================================================================== #
-
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-autoload -U compinit
-compinit
-
-fpath=(/usr/local/share/zsh-completions $fpath)
-
 
 # Prompt for remote connections
-[[ "${SSH_CLIENT}${SSH_TTY}${SSH_CONNECTION}" != "" ]] && export PS1="<\h>:\W \u\$ "
+if [[ "${SSH_CLIENT}${SSH_TTY}${SSH_CONNECTION}" != "" ]]; then
+    export PS1="<\h>:\W \u\$ "
+fi
 
 
-# Source private_zshrc if it exists
-[[ -f "${HOME}/.private_zshrc" ]] && source "${HOME}/.private_zshrc"
+# Put work specific configurations in '.work_zshrc'
+init-work "${0:A}"

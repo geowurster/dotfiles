@@ -11,3 +11,38 @@
 # path, plus other important environment variables. `.zshenv' should not
 # contain commands that produce output or assume the shell is attached to
 # a tty.
+
+
+if [[ -x "$(which vim)" ]]; then
+    export EDITOR="vim"
+else
+    export EDITOR="vi"
+fi
+
+
+export PAGER="less"
+
+
+# Must be defined in 'zshenv', which is sourced first.
+function init-work() {
+
+    # Load the work-specific version of each configuration file.  Add this
+    # to the bottom of any config file that may have a work counterpart:
+    #
+    #   init-work "${0:A}"
+
+    if [[ $# -ne 1 && -o INTERACTIVE && -t 2 ]]; then
+        echo "WARNING: Skipped sourcing a work config file: $@" >&2
+        return 1
+    fi
+
+    WORK_DOTFILE="${HOME}/.work_$(basename "$1")"
+    if [[ -f "${WORK_DOTFILE}" ]]; then
+        source "${WORK_DOTFILE}"
+    fi
+
+}
+
+
+# Put work specific configurations in '.work_zshenv'
+init-work "${0:A}"

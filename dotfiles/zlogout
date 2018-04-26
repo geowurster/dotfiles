@@ -7,3 +7,7 @@
 # From the zsh docs: http://zsh.sourceforge.net/Intro/intro_3.html
 #
 # Sourced when login shells exit.
+
+
+# Put work specific configurations in '.work_logout'
+init-work "${0:A}"
