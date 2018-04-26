@@ -4,7 +4,7 @@
 # This file is also source by .zshrc
 
 
-if [ -x $(which vim) ]; then
+if [ -x "$(which vim)" ]; then
     export EDITOR="vim"
 else
     export EDITOR="vi"
@@ -41,7 +41,7 @@ fi
 #   Homebrew Environment
 # =========================================================================== #
 
-if [ -x $(which brew) ];  then
+if [ -x "$(which brew)" ];  then
 
     # All Homebrew make commands execute with 75% of computer's cores
     export HOMEBREW_MAKE_JOBS=$(printf %.0f $(echo "$(nproc) * 0.75" | bc))
@@ -61,7 +61,7 @@ fi
 #   GDAL Environment
 # =========================================================================== #
 
-if [ -x $(which gdal-config) ];  then
+if [ -x "$(which gdal-config)" ];  then
 
     # Let GDAL find additional drivers
     [ -d "/usr/local/lib/gdalplugins" ] && export GDAL_DRIVER_PATH="/usr/local/lib/gdalplugins"
@@ -101,7 +101,7 @@ if [ "$(which python)" = "/usr/bin/python" ] && [ "$(uname)" = "Darwin" ];  then
     echo "    WARNING: Using system Python on a Mac"
     echo "=============================================="
     echo ""
-elif [ ! -x $(which pyenv) ]; then
+elif [ ! -x "$(which pyenv)" ]; then
     :  # pyenv is not present - makes the rest easier to read
 elif [ "$(pyenv versions | grep 3.5.0)" != "" ]; then
     pyenv global 3.5.0
