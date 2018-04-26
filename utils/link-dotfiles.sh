@@ -2,5 +2,8 @@
 
 
 for F in $(pwd)/dotfiles/*; do
-    ln -s "${F}" "${HOME}"/."$(basename $F)"
+    TARGET="${HOME}"/."$(basename $F)"
+    if [[ ! -f "${TARGET}" ]]; then
+        ln -s "${F}" "${TARGET}"
+    fi
 done
