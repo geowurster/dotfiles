@@ -1,0 +1,26 @@
+# 1. zshenv
+# 2. zprofile
+# 3. zshrc
+# 4. zlogin
+# 5. zlogout
+#
+# From the zsh docs: http://zsh.sourceforge.net/Intro/intro_3.html
+#
+# Sourced in interactive shells. It should contain commands to set up
+# aliases, functions, options, key bindings, etc.
+
+
+# Source Prezto.
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
+
+
+# Prompt for remote connections
+if [[ "${SSH_CLIENT}${SSH_TTY}${SSH_CONNECTION}" != "" ]]; then
+    export PS1="<\h>:\W \u\$ "
+fi
+
+
+# Put work specific configurations in '.work_zshrc'
+init-work "${0:A}"
