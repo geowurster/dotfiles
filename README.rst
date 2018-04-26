@@ -1,12 +1,20 @@
 Environment
 ===========
 
-.. image:: https://travis-ci.org/geowurster/Environment.png?branch=master
-   :target: https://travis-ci.org/geowurster/Environment
+Mostly shell configurations for `zsh <http://zsh.sourceforge.net>`_ with
+`prezto <https://github.com/sorin-ionescu/prezto>`_.
 
-Source order: ``.zshrc`` -> ``.bash_profile`` -> ``.work_bash_profile``,
-followed by a ``.workzshrc``.  The ``.bashrc`` is handled by the system but
-also sources a ``.work_bashrc``.
+
+zsh Dotfile Source Order
+------------------------
+
+From the `zsh docs <http://zsh.sourceforge.net/Intro/intro_3.html>`_.
+
+1. ``.zshenv``
+2. ``.zprofile``
+3. ``.zshrc``
+4. ``.zlogin``
+5. ``.zlogout``
 
 
 Setup
