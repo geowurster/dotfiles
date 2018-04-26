@@ -1,7 +1,12 @@
 # Configure Python environment
 
 
-if [[ ! -x "$(which python)" ]]; then
+if [[ -x "$(which python)" ]]; then
+    :
+elif [[ -d "/Library/Frameworks/Python.framework/Versions" ]]; then
+    export PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:${PATH}"
+    export PATH="/Library/Frameworks/Python.framework/Versions/3.6/bin:${PATH}"
+else
     return 1
 fi
 
