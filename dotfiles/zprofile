@@ -15,7 +15,7 @@
 # (fortune, msgs, etc).
 
 
-if [ -x "$(which vim)" ]; then
+if [[ -x "$(which vim)" ]]; then
     export EDITOR="vim"
 else
     export EDITOR="vi"
@@ -26,9 +26,9 @@ fi
 #   Missing *nix commands and directories
 # =========================================================================== #
 
-if [ ! -x "$(which nproc)" ]; then
+if [[ ! -x "$(which nproc)" ]]; then
     function nproc() {
-        if [ $# -gt 0 ]; then
+        if [[ $# -gt 0 ]]; then
             echo "System doesn't have 'nproc' - this is a stub function that doesn't take args."
             return 1
         fi
@@ -36,8 +36,8 @@ if [ ! -x "$(which nproc)" ]; then
     }
 fi
 
-[ ! -d "${HOME}/bin" ] && mkdir -p "${HOME}/bin"
-[ ! -d "${HOME}/.config" ] && mkdir -p "${HOME}/.config"
+[[ ! -d "${HOME}/bin" ]] && mkdir -p "${HOME}/bin"
+[[ ! -d "${HOME}/.config" ]] && mkdir -p "${HOME}/.config"
 
 
 # =========================================================================== #
@@ -45,23 +45,23 @@ fi
 # =========================================================================== #
 
 # Enable Travis-CI CLI
-[ -f "${HOME}/.travis/travis.sh" ] && source "${HOME}/.travis/travis.sh"
+[[ -f "${HOME}/.travis/travis.sh" ]] && source "${HOME}/.travis/travis.sh"
 
 
 # =========================================================================== #
 #   Homebrew Environment
 # =========================================================================== #
 
-if [ -x "$(which brew)" ];  then
+if [[ -x "$(which brew)" ]]; then
 
     # All Homebrew make commands execute with 75% of computer's cores
     export HOMEBREW_MAKE_JOBS=$(printf %.0f $(echo "$(nproc) * 0.75" | bc))
 
     # Recommended by $(brew doctor)
-    [ -d "/usr/local/sbin" ] && export PATH="/usr/local/sbin:${PATH}"
+    [[ -d "/usr/local/sbin" ]] && export PATH="/usr/local/sbin:${PATH}"
 
     # Find Homebrew installed utilities first
-    [ -d "/usr/local/bin" ] && export PATH="/usr/local/bin:${PATH}"
+    [[ -d "/usr/local/bin" ]] && export PATH="/usr/local/bin:${PATH}"
 
     # Disable analytics
     export HOMEBREW_NO_ANALYTICS=1
@@ -72,10 +72,10 @@ fi
 #   GDAL Environment
 # =========================================================================== #
 
-if [ -x "$(which gdal-config)" ];  then
+if [[ -x "$(which gdal-config)" ]]; then
 
     # Let GDAL find additional drivers
-    [ -d "/usr/local/lib/gdalplugins" ] && export GDAL_DRIVER_PATH="/usr/local/lib/gdalplugins"
+    [[ -d "/usr/local/lib/gdalplugins" ]] && export GDAL_DRIVER_PATH="/usr/local/lib/gdalplugins"
 
     # Let GDAL use 1/4 available RAM
     case $(uname) in
@@ -106,17 +106,17 @@ export PATH="${PY_USER_BIN}:${PATH}"
 
 
 # Alert if using system python
-if [ "$(which python)" = "/usr/bin/python" ] && [ "$(uname)" = "Darwin" ];  then
+if [[ "$(which python)" = "/usr/bin/python" ]] &&  [[ "$(uname)" = "Darwin" ]]; then
     echo ""
     echo "=============================================="
     echo "    WARNING: Using system Python on a Mac"
     echo "=============================================="
     echo ""
-elif [ ! -x "$(which pyenv)" ]; then
+elif [[ ! -x "$(which pyenv)" ]]; then
     :  # pyenv is not present - makes the rest easier to read
-elif [ "$(pyenv versions | grep 3.5.0)" != "" ]; then
+elif [[ "$(pyenv versions | grep 3.5.0)" != "" ]]; then
     pyenv global 3.5.0
-elif [ "$(pyenv versions | grep 2.7.10)" != "" ]; then
+elif [[ "$(pyenv versions | grep 2.7.10)" != "" ]]; then
     pyenv global 2.7.10
 fi
 
@@ -127,8 +127,8 @@ function vactivate(){
     DEFAULT_VENV="venv/bin/activate"
 
     # No arguments - look in current directory for 'venv'
-    if [ $# -eq 0 ];  then
-        if [ -f "${DEFAULT_VENV}" ];  then
+    if [[ $# -eq 0 ]]; then
+        if [[ -f "${DEFAULT_VENV}" ]]; then
             source "${DEFAULT_VENV}"
             return 0
         else
@@ -137,9 +137,9 @@ function vactivate(){
         fi
 
     # User supplied a venv - attempt to activate if it exists
-    elif [ $# -eq 1 ];  then
+    elif [[ $# -eq 1 ]]; then
         VENV="${1}/bin/activate"
-        if [ -f "${VENV}" ];  then
+        if [[ -f "${VENV}" ]]; then
             source ${VENV}
             return 0
         else
@@ -160,7 +160,7 @@ function vactivate(){
 # Get help on any python object
 function pyhelp(){
 
-    if [ $# -ne 1 ]; then
+    if [[ $# -ne 1 ]]; then
         echo "Calls help() on a Python object."
         echo ""
         echo "Usage: module.package.object"
@@ -174,7 +174,7 @@ function pyhelp(){
 # Print Python module's version by probing module level variables
 function pyversion(){
 
-    if [ $# -ne 1 ]; then
+    if [[ $# -ne 1 ]]; then
         echo "Attempts to print a Python module's version."
         echo ""
         echo "Usage: module_name"
@@ -199,7 +199,7 @@ else:
 # Print the path to a Python module
 function pywhich(){
 
-    if [ $# -ne 1 ]; then
+    if [[ $# -ne 1 ]]; then
         echo "Prints the path to a Python module."
         echo ""
         echo "Usage: module_name"
@@ -213,7 +213,7 @@ function pywhich(){
 # Print a Python object's attributes
 function pydir(){
 
-    if [ $# -ne 1 ]; then
+    if [[ $# -ne 1 ]]; then
         echo "Prints a Python object's attributes."
         echo ""
         echo "Usage: object"
@@ -248,7 +248,7 @@ for attr in dir($1):
 # Print a Python object's source code.  Probably not super robust.
 function pysrc {
 
-    if [ $# -ne 1 ]; then
+    if [[ $# -ne 1 ]]; then
         echo "Prints a Python object's source code."
         echo ""
         echo "Usage: path.to.object"
@@ -282,11 +282,11 @@ function gh() {
     # Open github.com and optionally an org and/or repo
 
     URL="https://github.com"
-    if [ $# -eq 0 ]; then
+    if [[ $# -eq 0 ]]; then
         :
-    elif [ $# -eq 1 ]; then
+    elif [[ $# -eq 1 ]]; then
         URL+="/${1}"
-    elif [ $# -eq 2 ]; then
+    elif [[ $# -eq 2 ]]; then
         URL+="/${1}/${2}"
     else:
         echo "Usage: gh [org] [repo]"
@@ -302,9 +302,9 @@ function gh() {
 #   Stuff that has to happen right at the very end
 # =========================================================================== #
 
-[ -r "${HOME}/bin" ] && export PATH="${HOME}/bin:${PATH}"
+[[ -r "${HOME}/bin" ]] && export PATH="${HOME}/bin:${PATH}"
 
-if [ -n "${PYENV_ROOT}" ]; then
+if [[ -n "${PYENV_ROOT}" ]]; then
     export PATH="${PYENV_ROOT}/bin:${PATH}"
 fi
 
@@ -313,4 +313,4 @@ fi
 #   Grab work specific stuff
 # =========================================================================== #
 
-[ -f "${HOME}/.work_bash_profile" ] && source "${HOME}/.work_bash_profile"
+[[ -f "${HOME}/.work_bash_profile" ]] && source "${HOME}/.work_bash_profile"
