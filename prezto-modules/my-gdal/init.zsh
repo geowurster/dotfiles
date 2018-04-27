@@ -25,7 +25,7 @@ case "${OSTYPE}" in
         RAM=$(sysctl -n hw.memsize)
         ;;
     linux*)
-        RAM=$($(getconf _PHYS_PAGES) * $(getconf PAGE_SIZE))
+        RAM=$(($(getconf _PHYS_PAGES) * $(getconf PAGE_SIZE)))
         ;;
     *)
         ;;
@@ -33,5 +33,5 @@ esac
 
 
 if (( ${+RAM} )); then
-    export GDAL_CACHEMAX=$(sysctl -n hw.memsize | awk '{print int($1 / 1024 / 1024 / 4)}')
+    export GDAL_CACHEMAX=$(echo "${RAM}" | awk '{print int($1 / 1024 / 1024 / 4)}')
 fi
