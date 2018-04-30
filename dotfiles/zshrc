@@ -16,11 +16,5 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 
-# Prompt for remote connections
-if [[ "${SSH_CLIENT}${SSH_TTY}${SSH_CONNECTION}" != "" ]]; then
-    export PS1="<\h>:\W \u\$ "
-fi
-
-
 # Put work specific configurations in '.work_zshrc'
 init-work "${0:A}"
