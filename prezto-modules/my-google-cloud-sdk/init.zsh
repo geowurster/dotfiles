@@ -3,7 +3,6 @@
 
 GCP_SDK="${HOME}/google-cloud-sdk"
 if [[ ! -d "${GCP_SDK}" ]]; then
-    echo ${GCP_SDK}
     return 1
 fi
 
