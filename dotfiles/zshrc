@@ -17,4 +17,4 @@ fi
 
 
 # Put work specific configurations in '.work_zshrc'
-init-work "${0:A}"
+init-work ${(%):-%N}

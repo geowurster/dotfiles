@@ -10,4 +10,4 @@
 
 
 # Put work specific configurations in '.work_logout'
-init-work "${0:A}"
+init-work ${(%):-%N}

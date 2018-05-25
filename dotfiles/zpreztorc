@@ -111,4 +111,4 @@ zstyle ':prezto:module:utility' safe-ops 'yes'
 
 
 # Put work specific configurations in '.work_zpreztorc'
-init-work "${0:A}"
+init-work ${(%):-%N}
