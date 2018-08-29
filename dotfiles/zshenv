@@ -13,13 +13,6 @@
 # a tty.
 
 
-if [[ -x "$(which vim)" ]]; then
-    export EDITOR="vim"
-else
-    export EDITOR="vi"
-fi
-
-
 export PAGER="less"
 
 

@@ -16,5 +16,12 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 
+if [[ -x "$(which vim)" ]]; then
+    export EDITOR="vim"
+else
+    export EDITOR="vi"
+fi
+
+
 # Put work specific configurations in '.work_zshrc'
 init-work ${(%):-%N}
