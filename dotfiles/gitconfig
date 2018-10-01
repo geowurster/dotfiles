@@ -1,18 +1,23 @@
+[core]
+    editor = vim
+    excludesfile = ~/.gitignore-global
+
 [filter "hawser"]
     clean = git hawser clean %f
     smudge = git hawser smudge %f
     required = true
-[user]
-    name = Kevin Wurster
-    email = wursterk@gmail.com
-[push]
-    default = simple
+
 [filter "lfs"]
     clean = git-lfs clean %f
     smudge = git-lfs smudge %f
     required = true
-[core]
-    editor = vim
-    excludesfile = ~/.gitignore-global
+
 [include]
     path = ~/.gitconfig-local
+
+[push]
+    default = simple
+
+[user]
+    name = Kevin Wurster
+    email = wursterk@gmail.com
