@@ -1,5 +1,6 @@
 # Jetbrains IDEA based editors
 .idea/
+.pycharm_helpers/
 
 # Dev scripts
 buh.py
