@@ -15,7 +15,7 @@ Install `zsh <http://zsh.sourceforge.net/>`_ first.
 
     $ zsh
     $ git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
-    $ git@github.com:geowurster/Environment.git
+    $ git clone git@github.com:geowurster/Environment.git
     $ cd Environment
     $ zsh link-dotfiles.sh
 
