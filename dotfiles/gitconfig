@@ -1,3 +1,6 @@
+[alias]
+    gsu = status -uno
+
 [core]
     editor = vim
     excludesfile = ~/.gitignore-global
