@@ -1,0 +1,3 @@
+tap "osgeo/osgeo4mac"
+brew "osgeo4mac/gdal"
+brew "osgeo4mac/qgis", args:['--without-qgis-res']
