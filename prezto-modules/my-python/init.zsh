@@ -15,6 +15,11 @@ fi
 PY_USER_BIN=$(python -c "import os, site; print(os.path.join(site.getuserbase(), 'bin'))")
 export PATH="${PY_USER_BIN}:${PATH}"
 
+if [[ -x "$(which python3)" ]]; then
+    PY_USER_BIN=$(python3 -c "import os, site; print(os.path.join(site.getuserbase(), 'bin'))")
+    export PATH="${PY_USER_BIN}:${PATH}"
+fi
+
 
 # It's mildly inconvenient to activate a virtual environment.  This is easier.
 function vactivate(){
