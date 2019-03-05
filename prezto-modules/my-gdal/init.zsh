@@ -13,6 +13,7 @@ elif [[ -d "${KYNGCHAOS_GDAL}" ]]; then
 else
     return 1
 fi
+unset KYNGCHAOS_GDAL
 
 
 # Provides a more reliable install for some GDAL dependents

@@ -9,3 +9,5 @@ fi
 
 source "${GCP_SDK}/path.zsh.inc"
 source "${GCP_SDK}/completion.zsh.inc"
+
+unset GCP_SDK
