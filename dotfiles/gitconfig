@@ -1,5 +1,7 @@
 [alias]
     gsu = status -uno
+    l1l = log --pretty=oneline
+    lol = l1l
 
 [core]
     editor = vim
