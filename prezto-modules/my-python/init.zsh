@@ -11,14 +11,12 @@ else
 fi
 
 
-# For `$ pip install --user`
-PY_USER_BIN=$(python -c "import os, site; print(os.path.join(site.getuserbase(), 'bin'))")
-export PATH="${PY_USER_BIN}:${PATH}"
-
-if [[ -x "$(which python3)" ]]; then
-    PY_USER_BIN=$(python3 -c "import os, site; print(os.path.join(site.getuserbase(), 'bin'))")
+# For 'pip install --user'
+for INTERP in $(echo "python python3"); do
+    PY_USER_BIN=$(${INTERP} -c "import os, site; print(os.path.join(site.getuserbase(), 'bin'))")
     export PATH="${PY_USER_BIN}:${PATH}"
-fi
+done
+unset INTERP PY_USER_BIN
 
 
 # It's mildly inconvenient to activate a virtual environment.  This is easier.
