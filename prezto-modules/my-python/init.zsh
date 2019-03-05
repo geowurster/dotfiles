@@ -1,11 +1,21 @@
 # Configure Python environment
 
 
+# Just assume environment is configured properly.
 if [[ -x "$(which python)" ]]; then
     :
+
+# On a Mac look for a Python Framework, likely from python.org
 elif [[ -d "/Library/Frameworks/Python.framework/Versions" ]]; then
-    export PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:${PATH}"
-    export PATH="/Library/Frameworks/Python.framework/Versions/3.6/bin:${PATH}"
+
+    for VERSION in $(echo "2.7 3.7"); do
+        PY_BIN="/Library/Frameworks/Python.framework/Versions/${VERSION}/bin"
+        if [[ -d "${PY_BIN}" ]]; then
+            export PATH="${PY_BIN}:${PATH}"
+        fi
+    done
+    unset PY_BIN
+
 else
     return 1
 fi
