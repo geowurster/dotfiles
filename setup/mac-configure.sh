@@ -2,6 +2,7 @@
 
 
 # Configure MacOS and application, mostly with the '$ defaults' utility.
+#   https://mths.be/macos
 #   https://github.com/mathiasbynens/dotfiles/blob/master/.macos
 
 
