@@ -1,5 +1,10 @@
 [alias]
     gsu = status -uno
+    l1 = log -n 1
+    l2 = log -n 2
+    l3 = log -n 3
+    l4 = log -n 4
+    l5 = log -n 5
     l1l = log --pretty=oneline
     lol = l1l
 
