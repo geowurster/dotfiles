@@ -1,4 +1,5 @@
 [alias]
+    co = checkout
     gsu = status -uno
     l1 = log -n 1
     l2 = log -n 2
