@@ -22,7 +22,8 @@ fi
 
 
 # For 'pip install --user'
-for INTERP in $(echo "python python3"); do
+# Note that Python 2 will appear first in the PATH.
+for INTERP in $(echo "python3 python"); do
     PY_USER_BIN=$(${INTERP} -c "import os, site; print(os.path.join(site.getuserbase(), 'bin'))")
     export PATH="${PY_USER_BIN}:${PATH}"
 done
