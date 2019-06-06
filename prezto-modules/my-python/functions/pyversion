@@ -4,20 +4,27 @@
 if [[ $# -ne 1 ]]; then
     echo "Attempts to print a Python module's version."
     echo ""
-    echo "Usage: module_name"
+    echo "Usage: module-name"
     return 1
 fi
 
 
-python -c """
-import $1
+python -c "
+from __future__ import print_function
+
 import sys
+
+try:
+    import $1
+except ImportError as e:
+    print(str(e), file=sys.stderr)
+
 
 for attr in ('__version__', 'version', 'VERSION', 'Version'):
     if hasattr($1, attr):
         print(getattr($1, attr))
-        sys.exit(0)
+        break
 else:
-    print('ERROR: Could not find a version attribute for $1')
-    sys.exit(1)
-"""
+    print('ERROR: Could not find a version attribute for $1', file=sys.stderr)
+    exit(1)
+"

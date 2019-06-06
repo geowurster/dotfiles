@@ -13,13 +13,21 @@ python -c "
 from __future__ import print_function
 
 import inspect
+import sys
 
-def importer(ipath):
-    if '.' not in ipath:
-        return __import__(ipath)
-    base, obj = ipath.rsplit('.', 1)
+
+def importer(path_to_object):
+    if '.' not in path_to_object:
+        return __import__(path_to_object)
+    base, obj = path_to_object.rsplit('.', 1)
     m = getattr(__import__(base, fromlist=[obj]), obj)
     return m
 
-print(inspect.getsource(importer('$1')))
-"
+try:
+    obj = importer('$1')
+except Exception as e:
+    print(str(e), file=sys.stderr)
+    exit(1)
+
+print(inspect.getsource(obj))
+" | ${PAGER}

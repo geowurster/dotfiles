@@ -4,16 +4,19 @@
 if [[ $# -ne 1 ]]; then
     echo "Prints a Python object's attributes."
     echo ""
-    echo "Usage: object"
+    echo "Usage: path.to.object"
     return 1
 fi
 
 
 python -c "
+from __future__ import print_function
+
+import os
 import re
+import sys
 
 
-# Import logic borrowed from https://github.com/Russell91/pythonpy
 def import_matches(query, prefix=''):
     matches = set(re.findall(r'(%s[a-zA-Z_][a-zA-Z0-9_]*)\.?' % prefix, query))
     for module_name in matches:
@@ -28,6 +31,9 @@ def import_matches(query, prefix=''):
 import_matches('$1')
 
 
-for attr in dir($1):
-    print(attr)
+try:
+    print(os.linesep.join(dir($1)))
+except Exception as e:
+    print(str(e), file=sys.stderr)
+    exit(1)
 "

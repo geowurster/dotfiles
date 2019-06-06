@@ -4,9 +4,9 @@
 if [[ $# -ne 1 ]]; then
     echo "Calls help() on a Python object."
     echo ""
-    echo "Usage: module.package.object"
+    echo "Usage: path.to.object"
     return 1
 fi
 
 
-python -c "help('''$1''')"
+python -c "help('''$1''')" | ${PAGER}
