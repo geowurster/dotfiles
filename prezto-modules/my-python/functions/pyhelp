@@ -1,0 +1,12 @@
+# Get help on any python object
+
+
+if [[ $# -ne 1 ]]; then
+    echo "Calls help() on a Python object."
+    echo ""
+    echo "Usage: module.package.object"
+    return 1
+fi
+
+
+python -c "help('''$1''')"

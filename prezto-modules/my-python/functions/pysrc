@@ -1,0 +1,25 @@
+# Print a Python object's source code.  Probably not super robust.
+
+
+if [[ $# -ne 1 ]]; then
+    echo "Prints a Python object's source code."
+    echo ""
+    echo "Usage: path.to.object"
+    return 1
+fi
+
+
+python -c "
+from __future__ import print_function
+
+import inspect
+
+def importer(ipath):
+    if '.' not in ipath:
+        return __import__(ipath)
+    base, obj = ipath.rsplit('.', 1)
+    m = getattr(__import__(base, fromlist=[obj]), obj)
+    return m
+
+print(inspect.getsource(importer('$1')))
+"
