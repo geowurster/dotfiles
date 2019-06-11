@@ -1,5 +1,6 @@
 [alias]
     co = checkout
+    egrep = grep -E
     gsu = status -uno
     l1 = log -n 1
     l2 = log -n 2
