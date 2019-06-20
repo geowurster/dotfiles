@@ -21,7 +21,7 @@ if [[ -x "$(which vim)" ]]; then
     export VISUAL="vim"
 else
     export EDITOR="vi"
-    export VISUAL="vim"
+    export VISUAL="vi"
 fi
 
 
