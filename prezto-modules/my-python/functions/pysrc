@@ -1,6 +1,12 @@
 # Print a Python object's source code.  Probably not super robust.
 
 
+# If an invalid object is given then Python exits with a 1, but the
+# pager still exits a zero.  This flag causes the entire script to
+# exit with a 1.
+set -o pipefail
+
+
 if [[ $# -ne 1 ]]; then
     echo "Prints a Python object's source code."
     echo ""
