@@ -30,7 +30,8 @@ zstyle ':prezto:load' pmodule \
     'my-gdal' \
     'my-python' \
     'my-ruby' \
-    'my-google-cloud-sdk'
+    'my-google-cloud-sdk' \
+    'my-functions'
 
 #
 # Autosuggestions

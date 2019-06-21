@@ -1,0 +1,18 @@
+# Invoke editor inside of a pipe.
+
+
+TMPFILE=$(mktemp)
+if [[ ! -t 0 ]]; then
+    # For some reason 'set -e' does not work when invoking this script
+    # without stdin.
+    set -e
+    cp /dev/stdin "$TMPFILE"
+fi
+
+
+"${EDITOR:-vi}" "$TMPFILE" < /dev/tty > /dev/tty
+
+
+cat "$TMPFILE"
+
+rm "$TMPFILE"
