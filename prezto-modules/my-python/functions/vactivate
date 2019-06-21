@@ -10,7 +10,7 @@ if [[ $# -eq 0 ]]; then
         source "${DEFAULT_VENV}"
         return 0
     else
-        echo "ERROR: Can't find venv: ${DEFAULT_VENV}"
+        echo "Error: Cannot find venv: ${DEFAULT_VENV}"
         return 1
     fi
 
@@ -21,7 +21,7 @@ elif [[ $# -eq 1 ]]; then
         source ${VENV}
         return 0
     else
-        echo "ERROR: Can't find : ${VENV}"
+        echo "Error: Cannot find : ${VENV}"
         return 1
     fi
 

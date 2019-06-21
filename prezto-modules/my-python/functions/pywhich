@@ -19,6 +19,6 @@ try:
     import $1
     print($1.__file__)
 except Exception as e:
-    print(str(e), file=sys.stderr)
+    print('Error: {}'.format(str(e)), file=sys.stderr)
     exit(1)
 "
