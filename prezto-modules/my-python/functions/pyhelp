@@ -1,4 +1,6 @@
 # Get help on any python object
+# This could be replaced with '$ pydoc -m', but this script has better exit
+# code handling.
 
 
 if [[ $# -ne 1 ]]; then
@@ -9,4 +11,20 @@ if [[ $# -ne 1 ]]; then
 fi
 
 
-python -c "help('''$1''')" | ${PAGER}
+python -c "
+
+from __future__ import print_function
+
+import pydoc
+
+
+thing = '''$1'''
+
+try:
+    obj, _ = pydoc.resolve(thing)
+except ImportError:
+    print('Error: Cold not find: {}'.format(thing))
+    exit(1)
+
+pydoc.help(obj)
+"
