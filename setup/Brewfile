@@ -1,5 +1,7 @@
+# brew bundle --file=setup/Brewfile
 brew "bash"
 brew "git"
+brew "grep"
 brew "htop"
 brew "jq"
 brew "parallel"
