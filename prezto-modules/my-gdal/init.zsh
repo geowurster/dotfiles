@@ -8,12 +8,11 @@
 KYNGCHAOS_GDAL="/Library/Frameworks/GDAL.framework"
 if [[ -x "$(which gdal-config)" ]]; then
     :
-elif [[ -d "${KYNGCHAOS_GDAL}" ]]; then
-    export PATH="${PATH}:${KYNGCHAOS_GDAL}/Programs"
+elif [[ -d "$KYNGCHAOS_GDAL" ]]; then
+    export PATH="_P:${PATH}"
 else
     return 1
 fi
-unset KYNGCHAOS_GDAL
 
 
 # Provides a more reliable install for some GDAL dependents
@@ -36,3 +35,6 @@ esac
 if (( ${+RAM} )); then
     export GDAL_CACHEMAX=$(echo "${RAM}" | awk '{print int($1 / 1024 / 1024 / 4)}')
 fi
+
+
+unset RAM KYNGCHAOS_GDAL
