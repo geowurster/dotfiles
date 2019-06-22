@@ -5,7 +5,6 @@ TMPFILE=$(mktemp)
 if [[ ! -t 0 ]]; then
     # For some reason 'set -e' does not work when invoking this script
     # without stdin.
-    set -e
     cp /dev/stdin "$TMPFILE"
 fi
 
