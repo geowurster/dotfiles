@@ -9,7 +9,7 @@ KYNGCHAOS_GDAL="/Library/Frameworks/GDAL.framework"
 if [[ -x "$(which gdal-config)" ]]; then
     :
 elif [[ -d "$KYNGCHAOS_GDAL" ]]; then
-    export PATH="_P:${PATH}"
+    export PATH="$KYNGCHAOS_GDAL/Programs:${PATH}"
 else
     return 1
 fi
