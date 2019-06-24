@@ -6,3 +6,4 @@ fi
 
 
 alias gg="git grep"
+alias gsu="git gsu"
