@@ -28,6 +28,7 @@ zstyle ':prezto:load' pmodule \
     'prompt' \
     'my-homebrew' \
     'my-gdal' \
+    'my-git' \
     'my-python' \
     'my-ruby' \
     'my-google-cloud-sdk' \
