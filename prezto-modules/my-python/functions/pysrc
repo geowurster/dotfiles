@@ -15,7 +15,7 @@ if [[ $# -ne 1 ]]; then
 fi
 
 
-python -c "
+OUTPUT=$(python -c "
 from __future__ import print_function
 
 import inspect
@@ -36,4 +36,15 @@ except Exception as e:
     exit(1)
 
 print(inspect.getsource(obj))
-" | ${PAGER}
+")
+
+
+ECODE=$?
+
+
+if [[ ! $ECODE -eq 0 ]]; then
+    printf "$OUTPUT"
+    return $ECODE
+else
+    echo "$OUTPUT" | "${PAGER:-less}"
+fi
