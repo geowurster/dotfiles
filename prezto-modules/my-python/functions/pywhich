@@ -2,7 +2,7 @@
 
 
 if [[ $# -ne 1 ]]; then
-    echo "Prints the path to a Python module."
+    echo "Print the path to a Python module."
     echo ""
     echo "Usage: module_name"
     return 1
