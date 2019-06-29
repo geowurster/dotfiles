@@ -23,7 +23,7 @@ thing = '''$1'''
 try:
     obj, _ = pydoc.resolve(thing)
 except ImportError:
-    print('Error: Cold not find: {}'.format(thing))
+    print('Error: Could not find: {}'.format(thing))
     exit(1)
 
 pydoc.help(obj)
