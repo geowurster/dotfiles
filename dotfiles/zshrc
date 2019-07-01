@@ -10,6 +10,9 @@
 # aliases, functions, options, key bindings, etc.
 
 
+export PAGER="less"
+
+
 if [[ -x "$(which nvim)" ]]; then
     export EDITOR="nvim"
     export VISUAL="nvim -R"

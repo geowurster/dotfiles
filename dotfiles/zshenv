@@ -13,9 +13,6 @@
 # a tty.
 
 
-export PAGER="less"
-
-
 # Must be defined in 'zshenv', which is sourced first.
 function init-work() {
 
