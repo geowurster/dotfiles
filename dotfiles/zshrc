@@ -10,12 +10,6 @@
 # aliases, functions, options, key bindings, etc.
 
 
-# Source Prezto.
-if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
-fi
-
-
 if [[ -x "$(which vim)" ]]; then
     export EDITOR="vim"
     export VISUAL="vim"
@@ -27,3 +21,10 @@ fi
 
 # Put work specific configurations in '.work_zshrc'
 init-work ${(%):-%N}
+
+
+# Run Prezto after setting up environment so that it can access global
+# variables like '$EDITOR'.
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
