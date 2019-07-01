@@ -20,7 +20,7 @@ if [[ ! -t 0 ]]; then
 fi
 
 
-"${EDITOR:-vi}" "$TMPFILE" < /dev/tty > /dev/tty || return 1
+"${EDITOR}" "$TMPFILE" < /dev/tty > /dev/tty || return 1
 
 
 cat "$TMPFILE" || return 1
