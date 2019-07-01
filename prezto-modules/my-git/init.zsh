@@ -5,5 +5,8 @@ if [[ ! -x $(which git) ]]; then
 fi
 
 
+export GIT_EDITOR="$EDITOR"
+
+
 alias gg="git grep"
 alias gsu="git gsu"

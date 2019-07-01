@@ -11,7 +11,6 @@
     lol = l1l
 
 [core]
-    editor = vim
     excludesfile = ~/.gitignore-global
 
 [filter "hawser"]
