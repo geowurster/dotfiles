@@ -10,12 +10,17 @@
 # aliases, functions, options, key bindings, etc.
 
 
-if [[ -x "$(which vim)" ]]; then
+if [[ -x "$(which nvim)" ]]; then
+    export EDITOR="nvim"
+    export VISUAL="nvim -R"
+elif [[ -x "$(which vim)" ]]; then
     export EDITOR="vim"
     export VISUAL="vim"
-else
+elif [[ -x "$(which vi)" ]]; then
     export EDITOR="vi"
-    export VISUAL="vi"
+    export VISUAL="vi -R"
+else
+    echo "WARNING: Did notset $EDITOR" >> /dev/stderr
 fi
 
 
