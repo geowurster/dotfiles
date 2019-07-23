@@ -11,6 +11,7 @@ OVERRIDES=(
     "/usr/local/bin"
     "/usr/local/sbin"
     "/usr/local/opt/grep/libexec/gnubin"
+    "/usr/local/opt/curl/bin"
 )
 for P in ${OVERRIDES[@]}; do
     if [[ -d "$P" ]]; then
