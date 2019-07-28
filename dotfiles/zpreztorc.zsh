@@ -20,7 +20,6 @@ zstyle ':prezto:load' pmodule \
     'environment' \
     'terminal' \
     'editor' \
-    'history' \
     'directory' \
     'spectrum' \
     'utility' \
@@ -29,6 +28,7 @@ zstyle ':prezto:load' pmodule \
     'my-homebrew' \
     'my-gdal' \
     'my-git' \
+    'my-history' \
     'my-python' \
     'my-ruby' \
     'my-google-cloud-sdk' \
