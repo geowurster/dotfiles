@@ -23,7 +23,7 @@ elif [[ -x "$(which vi)" ]]; then
     export EDITOR="vi"
     export VISUAL="vi -R"
 else
-    echo "WARNING: Did notset $EDITOR" >> /dev/stderr
+    echo "WARNING: Did not set \$EDITOR" >> /dev/stderr
 fi
 
 
