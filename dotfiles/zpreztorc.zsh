@@ -17,7 +17,6 @@ zstyle ':prezto:load' pmodule-dirs $(dirname ${0:A})/../prezto-modules
 # Set the Prezto modules to load (browse modules).
 # The order matters.
 zstyle ':prezto:load' pmodule \
-    'environment' \
     'terminal' \
     'editor' \
     'directory' \
