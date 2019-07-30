@@ -19,7 +19,6 @@ zstyle ':prezto:load' pmodule-dirs $(dirname ${0:A})/../prezto-modules
 zstyle ':prezto:load' pmodule \
     'terminal' \
     'editor' \
-    'directory' \
     'spectrum' \
     'utility' \
     'completion' \
