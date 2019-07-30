@@ -14,8 +14,7 @@ zstyle ':prezto:*:*' color 'yes'
 # Add additional directories to load prezto modules from
 zstyle ':prezto:load' pmodule-dirs $(dirname ${0:A})/../prezto-modules
 
-# Set the Prezto modules to load (browse modules).
-# The order matters.
+# Set the Prezto modules to load (browse modules). Order is significant.
 zstyle ':prezto:load' pmodule \
     'terminal' \
     'editor' \

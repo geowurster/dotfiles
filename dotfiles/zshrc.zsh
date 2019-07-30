@@ -11,11 +11,10 @@
 
 
 # General
-setopt COMBINING_CHARS      # Combine zero-length punctuation characters (accents)
-                            # with the base character.
+setopt COMBINING_CHARS      # Combine zero-length punctuation characters (accents) with the base character.
 setopt INTERACTIVE_COMMENTS # Enable comments in interactive shell.
-setopt RC_QUOTES            # Allow 'Henry''s Garage' instead of 'Henry'\''s Garage'.
 unsetopt MAIL_WARNING       # Don't print a warning message if a mail file has been accessed.
+setopt RC_QUOTES            # Allow 'Henry''s Garage' instead of 'Henry'\''s Garage'.
 
 
 # Directories, cd, redirect, globbing, etc.
@@ -39,9 +38,8 @@ unsetopt HUP              # Don't kill jobs on shell exit.
 unsetopt CHECK_JOBS       # Don't report on jobs when shell exit.
 
 
+# PAGER, EDITOR, VISUAL, etc.
 export PAGER="less"
-
-
 if [[ -x "$(which nvim)" ]]; then
     export EDITOR="nvim"
     export VISUAL="nvim -R"
