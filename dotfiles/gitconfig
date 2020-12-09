@@ -26,6 +26,9 @@
 [include]
     path = ~/.gitconfig-local
 
+[pull]
+    ff = only
+
 [push]
     default = simple
 
