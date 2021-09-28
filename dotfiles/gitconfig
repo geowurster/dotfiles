@@ -26,6 +26,8 @@
 [include]
     path = ~/.gitconfig-local
 
+[pager]
+    branch = false
 [pull]
     ff = only
 
