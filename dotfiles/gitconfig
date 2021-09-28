@@ -35,3 +35,5 @@
 [user]
     name = Kevin Wurster
     email = wursterk@gmail.com
+[init]
+    defaultBranch = main
