@@ -1,7 +1,14 @@
-Le Petit Ordinateur Portable
-============================
+Custom Keymapping
+=================
 
-A tiny, underpowered 12" 2014 Macbook with a French Canadian keyboard.
+
+
+
+Le Petit Ordinateur Portable
+----------------------------
+
+A tiny, underpowered 12" 2014 Macbook with a French Canadian keyboard. Keymap
+lives in `keymap-lpop.sh`.
 
 
 Custom Keymap
