@@ -17,7 +17,7 @@ if [[ -d "$FRAMEWORK" ]] && [[ "$VERSIONS" ]]; then
     for V in $(echo "$VERSIONS" | sort); do
         PY_BIN="$FRAMEWORK/Versions/$V/bin/"
         INTERP="$PY_BIN/python$V"
-        PY_USER_BIN=$("$INTERP" -c "import os, site; print(os.path.join(site.getuserbase(), 'bin'))")
+        PY_USER_BIN=$("$INTERP" -m site --user-base)
         export PATH="$PY_BIN:$PY_USER_BIN:$PATH"
     done
 
