@@ -28,6 +28,7 @@
 
 [pager]
   branch = false
+  grep = false
 
 [pull]
   ff = only
