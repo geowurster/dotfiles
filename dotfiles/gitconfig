@@ -1,41 +1,43 @@
 [alias]
-    co = checkout
-    egrep = grep -E
-    gsu = status -uno
-    l1 = log -n 1
-    l2 = log -n 2
-    l3 = log -n 3
-    l4 = log -n 4
-    l5 = log -n 5
-    l1l = log --pretty=oneline
-    lol = l1l
+  co = checkout
+  egrep = grep -E
+  gsu = status -uno
+  l1 = log -n 1
+  l2 = log -n 2
+  l3 = log -n 3
+  l4 = log -n 4
+  l5 = log -n 5
+  l1l = log --pretty=oneline
+  lol = l1l
 
 [core]
-    excludesfile = ~/.gitignore-global
+  excludesfile = ~/.gitignore-global
 
 [filter "hawser"]
-    clean = git hawser clean %f
-    smudge = git hawser smudge %f
-    required = true
+  clean = git hawser clean %f
+  smudge = git hawser smudge %f
+  required = true
 
 [filter "lfs"]
-    clean = git-lfs clean %f
-    smudge = git-lfs smudge %f
-    required = true
+  clean = git-lfs clean %f
+  smudge = git-lfs smudge %f
+  required = true
 
 [include]
-    path = ~/.gitconfig-local
+  path = ~/.gitconfig-local
 
 [pager]
-    branch = false
+  branch = false
+
 [pull]
-    ff = only
+  ff = only
 
 [push]
-    default = simple
+  default = simple
 
 [user]
-    name = Kevin Wurster
-    email = wursterk@gmail.com
+  name = Kevin Wurster
+  email = wursterk@gmail.com
+
 [init]
-    defaultBranch = main
+  defaultBranch = main
