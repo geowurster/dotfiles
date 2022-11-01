@@ -1,12 +1,12 @@
 # Google Cloud Platform SDK configuration
 
 
-GCP_SDK="${HOME}/google-cloud-sdk"
-if [[ ! -d "${GCP_SDK}" ]]; then
+if [[ $(which gcloud) == "" ]]; then
     return 1
 fi
 
 
+GCP_SDK=$(gcloud info --format='value(installation.sdk_root)')
 source "${GCP_SDK}/path.zsh.inc"
 source "${GCP_SDK}/completion.zsh.inc"
 
