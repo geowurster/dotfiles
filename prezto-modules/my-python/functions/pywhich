@@ -9,7 +9,7 @@ if [[ $# -ne 1 ]]; then
 fi
 
 
-python -c "
+python3 -c "
 
 from __future__ import print_function
 
