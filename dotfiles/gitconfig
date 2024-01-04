@@ -22,6 +22,7 @@
   clean = git-lfs clean %f
   smudge = git-lfs smudge %f
   required = true
+  process = git-lfs filter-process
 
 [include]
   path = ~/.gitconfig-local
@@ -32,6 +33,7 @@
 
 [pull]
   ff = only
+  rebase = false
 
 [push]
   default = simple
