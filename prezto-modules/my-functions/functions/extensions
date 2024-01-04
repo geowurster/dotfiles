@@ -1,0 +1,61 @@
+if [ "$#" -eq 1 ]; then
+  DIR="$1"
+elif [ "$#" -eq 0 ]; then
+  DIR=$(pwd)
+else
+  echo "Usage: extensions [path]"
+  return 2
+fi
+
+
+if [ ! -d "$DIR" ]; then
+  echo "ERROR: path does not exist or is not a directory: $DIR"
+  return 1
+fi
+
+
+BASEPATH="$DIR" python3 << EOF
+# This could touch a very large number of files, so it is important to be
+# very efficient.
+
+from collections import Counter
+import itertools as it
+import operator as op
+import os
+from pathlib import Path
+import sys
+
+basepath = os.environ['BASEPATH']
+basepath = os.path.expanduser(basepath)
+basepath = os.path.abspath(basepath)
+
+# Efficiently gather a stream of all filenames in the tree. Include directories
+# to pick up directories disguised as files - like '*.app' files on MacOS.
+all_files = (files + dirs for _, dirs, files in os.walk(basepath))
+all_files = it.chain.from_iterable(all_files)
+
+# Stream of extensions
+extensions = map(os.path.splitext, all_files)
+extensions = map(op.itemgetter(1), extensions)
+extensions = map(op.methodcaller('lstrip', '.'), extensions)
+extensions = filter(None, extensions)
+
+# Ignore case
+if 'EXTIGNORECASE' in os.environ:
+    extensions = map(op.methodcaller('lower'), extensions)
+
+# Mapping between extensions and counts.
+counter = Counter(extensions)
+
+# Output is two columns emulating '$ uniq -c'. Determine width of first column,
+# and allow for a leading space.
+if len(counter) == 0:
+    width = 0
+else:
+    width = len(str(max(counter.values())))
+    width += 1
+
+# Print largest count last to make it more visible and hide the long tail.
+for k, v in reversed(counter.most_common()):
+    print(f"{v:>{width}} {k}")
+EOF
