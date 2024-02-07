@@ -1,61 +1,111 @@
-if [ "$#" -eq 1 ]; then
-  DIR="$1"
-elif [ "$#" -eq 0 ]; then
-  DIR=$(pwd)
-else
-  echo "Usage: extensions [path]"
-  return 2
-fi
+# Summarize file and directory extensions
+#
+#   $ extensions --help
+
+# This is implemented in kind of a weird way. Parsing file and directory
+# extensions in the shell proved to be too painful, so I:
+#   * Implemented it in Python
+#   * Stuff that Python script into a heredoc within this file
+#   * Execute it with '$ python -c $SCRIPT'
+
+# Maintaining this function means dumping the Python script into a separate
+# file, editing, and then replacing here.
 
 
-if [ ! -d "$DIR" ]; then
-  echo "ERROR: path does not exist or is not a directory: $DIR"
-  return 1
-fi
+###############################################################################
+###############################################################################
 
 
-BASEPATH="$DIR" python3 << EOF
+# Assign Python script to '$SCRIPT'
+read -r -d '' SCRIPT << EOF
 # This could touch a very large number of files, so it is important to be
 # very efficient.
 
+import argparse
 from collections import Counter
-import itertools as it
-import operator as op
 import os
-from pathlib import Path
-import sys
 
-basepath = os.environ['BASEPATH']
-basepath = os.path.expanduser(basepath)
-basepath = os.path.abspath(basepath)
 
-# Efficiently gather a stream of all filenames in the tree. Include directories
-# to pick up directories disguised as files - like '*.app' files on MacOS.
-all_files = (files + dirs for _, dirs, files in os.walk(basepath))
-all_files = it.chain.from_iterable(all_files)
+###############################################################################
+# ArgumentParser()
 
-# Stream of extensions
-extensions = map(os.path.splitext, all_files)
-extensions = map(op.itemgetter(1), extensions)
-extensions = map(op.methodcaller('lstrip', '.'), extensions)
-extensions = filter(None, extensions)
+parser = argparse.ArgumentParser(
+    description="Report file and directory extensions.")
+parser.add_argument("basepath", default=os.getcwd(), nargs="?")
+group = parser.add_mutually_exclusive_group()
+group.add_argument(
+    "--directories", "-d", dest="only_directories", action="store_true",
+    help="Only report directory extensions."
+)
+group.add_argument(
+    "--files", "-f", dest="only_files", action="store_true",
+    help="Only report file extensions."
+)
+parser.add_argument(
+    "--ignore-case", "-i", action="store_true",
+    help="Ignore extension case."
+)
 
-# Ignore case
-if 'EXTIGNORECASE' in os.environ:
-    extensions = map(op.methodcaller('lower'), extensions)
+###############################################################################
+# Configure
 
-# Mapping between extensions and counts.
-counter = Counter(extensions)
+args = parser.parse_args()
+
+# Expand '~/' to a real path
+basepath = os.path.expanduser(args.basepath)
+
+
+###############################################################################
+# Count Extensions
+
+counter_directories = Counter()
+counter_files = Counter()
+for _, directories, filenames in os.walk(basepath):
+
+    # Note that at this point extensions include a leading period. Stripping
+    # the character within this loop would incur a call for _every_ file
+    # and directory. Instead, the character is stripped when the final
+    # extension counts are emitted. This loop could touch hundreds of thousands
+    # of files if not more, but the final list of extensions is likely only
+    # a few thousand items.
+    counter_directories.update(os.path.splitext(d)[1] for d in directories)
+    counter_files.update(os.path.splitext(f)[1] for f in filenames)
+
+
+###############################################################################
+# Summarize Extensions
+
+counter_total = Counter()
+if args.only_directories:
+    counter_total += counter_directories
+elif args.only_files:
+    counter_total += counter_files
+else:
+    counter_total += (counter_directories + counter_files)
+
+del counter_directories, counter_files
+
+###############################################################################
+# Print Results
 
 # Output is two columns emulating '$ uniq -c'. Determine width of first column,
 # and allow for a leading space.
-if len(counter) == 0:
+if len(counter_total) == 0:
     width = 0
 else:
-    width = len(str(max(counter.values())))
+    width = len(str(max(counter_total.values())))
     width += 1
 
 # Print largest count last to make it more visible and hide the long tail.
-for k, v in reversed(counter.most_common()):
+for k, v in reversed(counter_total.most_common()):
+
+    # Each extension includes a leading period. See note elsewhere about why
+    # this is removed here instead of in the main loop.
+    k = k[1:]
+
     print(f"{v:>{width}} {k}")
 EOF
+
+
+# Execute
+python3 -c "$SCRIPT" $@
