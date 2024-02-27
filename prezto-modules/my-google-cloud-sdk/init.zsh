@@ -1,7 +1,7 @@
 # Google Cloud Platform SDK configuration
 
 
-if [[ $(which gcloud) == "" ]]; then
+if [ ! "$(command -v gcloud)" ]; then
     return 1
 fi
 
