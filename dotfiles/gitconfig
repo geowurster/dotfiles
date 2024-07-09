@@ -13,6 +13,9 @@
 [core]
   excludesfile = ~/.gitignore-global
 
+[fetch]
+  fsckObjects = true
+
 [filter "hawser"]
   clean = git hawser clean %f
   smudge = git hawser smudge %f
@@ -27,9 +30,18 @@
 [include]
   path = ~/.gitconfig-local
 
+[init]
+  defaultBranch = main
+
 [pager]
   branch = false
   grep = false
+
+[protocol "git"]
+  allow = never
+
+[protocol "http"]
+  allow = never
 
 [pull]
   ff = only
@@ -38,9 +50,12 @@
 [push]
   default = simple
 
+[receive]
+  fsckObjects = true
+
+[transfer]
+  fsckObjects = true
+
 [user]
   name = Kevin Wurster
   email = wursterk@gmail.com
-
-[init]
-  defaultBranch = main
