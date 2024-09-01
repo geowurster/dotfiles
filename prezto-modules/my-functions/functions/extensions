@@ -9,7 +9,8 @@
 #   * Execute it with '$ python -c $SCRIPT'
 
 # Maintaining this function means dumping the Python script into a separate
-# file, editing, and then replacing here.
+# file, editing, and then replacing here. Try to support as many versions of
+# Python as possible without external dependencies.
 
 
 ###############################################################################
@@ -109,6 +110,13 @@ for k, v in reversed(counter_total.most_common()):
 EOF
 
 
+###############################################################################
+###############################################################################
+###############################################################################
+###############################################################################
+
+
+# Execute script
 if [ $(command -v python3) != "" ]; then
     PYTHON="python3"
 elif [ $(command -v python) != "" ]; then
@@ -117,15 +125,7 @@ else
     echo "ERROR: Could not find a Python interpreter"
     return 1
 fi
-
-
-###############################################################################
-###############################################################################
-###############################################################################
-###############################################################################
-
-# Execute script
-python3 -c "$SCRIPT" $@
+"${PYTHON}" -c "$SCRIPT" $@
 
 # Deal with non-zero exit code
 EXITCODE=$?
