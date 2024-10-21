@@ -1,0 +1,31 @@
+#!/bin/bash
+
+
+# Invoke $EDITOR inside of a pipe. Inspired by '$ vipe' from 'moreutils':
+#
+#   https://github.com/madx/moreutils/blob/master/vipe
+#
+# Copy stdin to a tempfile and edit.
+#
+#   $ echo data | epipe
+#
+# or edit an empty tempfile
+#
+#   $ epipe
+#
+# In both cases the tempfile is automatically deleted.
+
+set -euo pipefail
+
+# Create a temporary file, and copy stdin to the file.
+TMPFILE=$(mktemp)
+cp /dev/stdin "${TMPFILE}"
+
+# Invoke editor.
+"${EDITOR}" "${TMPFILE}" < /dev/tty > /dev/tty
+
+# Print the edited contents to 'stdout'.
+cat "${TMPFILE}"
+
+# Delete the temporary file.
+rm "${TMPFILE}"
