@@ -1,0 +1,125 @@
+#!/usr/bin/env python3
+
+
+"""Summarize file and directory extensions.
+
+This script could touch a _very_ large number of files, so be conscious of
+performance.
+"""
+
+
+from __future__ import annotations
+
+import argparse
+from collections import Counter
+import os
+from pathlib import Path
+
+
+def _parser() -> argparse.ArgumentParser:
+
+    parser = argparse.ArgumentParser(
+        description='Report file and directory extensions.'
+    )
+    parser.add_argument('basepath', default=None, nargs='?', type=Path)
+    
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument(
+        '--directories', '-d', dest='only_directories', action='store_true',
+        help='Only report directory extensions.'
+    )
+    group.add_argument(
+        '--files', '-f', dest='only_files', action='store_true',
+        help='Only report file extensions.'
+    )
+
+    parser.add_argument(
+        '--ignore-case', '-i', action='store_true',
+        help='Ignore extension case.'
+    )
+
+    return parser
+
+
+def normalize_case(counter: Counter) -> Counter:
+
+    """Normalize all keys to lower case, and summarize values."""
+
+    nc = Counter()
+    for k, v in counter.items():
+        nc[k.lower()] += v
+    return nc
+
+
+def main(
+        basepath: os.PathLike | None,
+        only_files: bool,
+        only_directories: bool,
+        ignore_case: bool
+) -> int:
+
+    basepath = Path(basepath or Path.cwd())
+
+    ###########################################################################
+    # Discover Extensions
+
+    counter_directories = Counter()
+    counter_files = Counter()
+    for _, directories, filenames in os.walk(basepath):
+
+        # Note that at this point extensions include a leading period.
+        # Stripping the character within this loop would incur a call for
+        # _every_ file and directory. Instead, the character is stripped when
+        # the final extension counts are emitted. This loop could touch
+        # hundreds of thousands of files if not more, but the final list of
+        # extensions is likely only a few hundred items.
+        counter_directories.update(os.path.splitext(d)[1] for d in directories)
+        counter_files.update(os.path.splitext(f)[1] for f in filenames)
+
+    ###########################################################################
+    # Ignore Case
+
+    if ignore_case:
+        counter_directories = normalize_case(counter_directories)
+        counter_files = normalize_case(counter_files)
+
+    ###############################################################################
+    # Summarize Extensions
+
+    counter_total = Counter()
+    if only_directories:
+        counter_total += counter_directories
+    elif only_files:
+        counter_total += counter_files
+    else:
+        counter_total += (counter_directories + counter_files)
+
+    del counter_directories, counter_files
+
+    ###############################################################################
+    # Print Results
+
+    # Output is two columns emulating '$ uniq -c'. Determine width of first column,
+    # and allow for a leading space.
+    if len(counter_total) == 0:
+        width = 0
+    else:
+        width = len(str(max(counter_total.values())))
+        width += 1
+
+    # Print largest count last to make it more visible and hide the long tail.
+    for k, v in reversed(counter_total.most_common()):
+
+        # Each extension includes a leading period. See note elsewhere about why
+        # this is removed here instead of in the main loop.
+        k = k[1:]
+
+        print(f'{v:>{width}} {k}')
+
+    return 0
+
+
+if __name__ == '__main__':
+    args = _parser().parse_args()
+    exit_code = main(**vars(args))
+    exit(exit_code)
