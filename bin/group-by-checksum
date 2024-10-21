@@ -1,0 +1,108 @@
+#!/usr/bin/env python3
+
+
+"""Group filenames by checksum to find idental files."""
+
+
+import argparse
+from collections import defaultdict
+from fnmatch import fnmatch
+from functools import partial
+from glob import iglob
+import hashlib
+from hashlib import file_digest
+import itertools as it
+import os
+from pathlib import Path
+
+
+def get_parser():
+
+    parser = argparse.ArgumentParser(
+        description=(
+            'Compute checksum for every input file, and print file grouped'
+            ' by those checksums to identify duplicate files.'
+        )
+    )
+
+    parser.add_argument('directory_or_glob', nargs='*')
+    parser.add_argument(
+        '-a', '--algorithm', default='md5', metavar='STR',
+        choices=hashlib.algorithms_available,
+        help='Use this hashing algorithm.'
+    )
+
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument(
+        '--include', metavar='GLOB',
+        help='Only paths matching this Unix-style wildcard will be included.'
+    )
+    group.add_argument(
+        '--exclude', metavar='GLOB',
+        help='Paths matching this Unix-style wildcard will be excluded. When'
+             ' combined with --include, inclusion is evaluated first.'
+    )
+
+    return parser
+
+
+def _walk(directory):
+    for d, _, fnames in os.walk(directory):
+        yield from (os.path.join(d, f) for f in fnames)
+
+
+def _paths(directory_or_glob, include, exclude):
+
+    if include is not None and exclude is not None:
+        raise RuntimeError(f'can only provide one: {include=} {exclude=}')
+
+    if os.path.isdir(directory_or_glob):
+        paths = _walk(directory_or_glob)
+    else:
+        paths = iglob(directory_or_glob)
+
+    # Only include paths matching this glob
+    if include is not None:
+        paths = filter(partial(fnmatch, include), paths)
+
+    # Exclude paths matching this glob
+    if exclude is not None:
+        paths = it.filterfalse(partial(fnmatch, exclude), paths)
+
+    yield from map(os.path.realpath, paths)
+
+
+def main(directory_or_glob, algorithm, include, exclude):
+
+    if len(directory_or_glob) == 0:
+        cwd = Path.cwd()
+        directory_or_glob.append(cwd.relative_to(cwd))
+
+    grouped = defaultdict(list)
+
+    for dog in directory_or_glob:
+
+        paths = _paths(
+            directory_or_glob=dog,
+            include=include,
+            exclude=exclude
+        )
+
+        for p in paths:
+
+            with open(p, 'rb') as f:
+                digest = file_digest(f, algorithm)
+
+            grouped[digest.hexdigest()].append(p)
+
+    for k, v in grouped.items():
+        print(k)
+        print(os.linesep.join(f'  {os.path.relpath(i, '.')}' for i in v))
+
+    return 0
+
+
+if __name__ == '__main__':
+    args = get_parser().parse_args()
+    exit_code = main(**vars(args))
+    exit(exit_code)
