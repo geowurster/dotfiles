@@ -8,6 +8,9 @@
 -- Highlight column 80 as a guideline (e.g. for code width)
 vim.opt.colorcolumn = "80"
 
+-- Do not conceal any text
+vim.opt.conceallevel = 0
+
 -- Highlight the current line
 vim.opt.cursorline = true
 
