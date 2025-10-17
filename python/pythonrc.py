@@ -5,14 +5,18 @@
 # References:
 #   - https://nedbatchelder.com/blog/201904/startuppy.html
 #   - https://docs.python.org/3/using/cmdline.html#envvar-PYTHONSTARTUP
+#   - https://github.com/lonetwin/pythonrc/blob/master/pythonrc.py
 
 
 from __future__ import annotations
 
+import code
 import itertools as it
+from keyword import iskeyword
 import os
 from pprint import pprint
 import readline
+import subprocess as sp
 import sys
 from typing import (
     BinaryIO,
@@ -161,3 +165,120 @@ for p in paths:
         with open(p) as f:
             exec(f.read(), globals(), locals())
 del p, paths
+
+
+###############################################################################
+# InteractiveConsole()
+
+class InteractiveConsole(code.InteractiveConsole):
+
+    """Custom interactive console."""
+
+    def raw_input(self, prompt: str = '') -> str:
+
+        """Given a raw line from the console, dispatch a function."""
+
+        line = super().raw_input(prompt)
+
+        # We often need a version of the line without leading and trailing
+        # whitespace, but in some cases it is significant, so always evaluate
+        # the 'line'.
+        stripped = line.strip()
+
+        if stripped == 'exit':
+            raise SystemExit(0)
+
+        elif stripped.startswith('%paste'):
+            return self._paste(line)
+
+        elif stripped.startswith('!'):
+            return self._command(line)
+
+        # Invoke 'help(str)' with IPython's 'str?' syntax. Note that this
+        # should be checked after shell commands to avoid routing things like
+        # '$?' through Python's 'help()'.
+        elif stripped.endswith('?'):
+            return self._help(line)
+
+        else:
+            return line
+
+    def write(self, data: str) -> None:
+
+        """Write text to the console.
+
+        Exists only to ensure that the text ends with a newline.
+        """
+
+        if not data.endswith(os.linesep):
+            data += os.linesep
+        super().write(data)
+
+    def _command(self, line: str) -> str:
+
+        """Execute a command like ``!ls -lrt``."""
+
+        # TODO: Enable colored output. I think this isn't getting a full shell
+        #       instance. Using '!ls --color=yes' gets colors, but not '!ls'.
+        os.system(line.strip()[1:])
+        return ''
+
+    def _help(self, line: str) -> str:
+
+        """Execute ``help(str)`` like ``str?``."""
+
+        help(line[:-1])
+        return ''
+
+    def _paste(self, line: str) -> str:
+
+        """Dump system clipboard into a variable like IPython.
+
+        ``%paste variable``.
+        """
+
+        split = line.split(' ', 1)
+        if len(split) != 2:
+            self.write(f'FAILED: could not parse: {line}')
+
+        directive, variable = map(str.strip, split)
+        if directive != '%paste':
+            self.write(
+                f'FAILED: unknown directive: {line}'
+            )
+
+        elif iskeyword(variable) or not variable.isidentifier():
+            self.write(
+                f'ERROR: not a valid variable name: {variable}'
+            )
+
+        elif sys.platform != 'darwin':
+            self.write(
+                f'ERROR: platform {sys.platform} not supported: {line}'
+            )
+
+        else:
+
+            proc = sp.Popen(
+                ['pbpaste'],
+                stdout=sp.PIPE,
+                stderr=sp.PIPE
+            )
+            with proc as proc:
+                proc.wait()
+                if proc.returncode == 0:
+                    data = proc.stdout.read()
+                    self.locals[variable] = data.decode()
+                else:
+                    self.write(f'ERROR: Executed and failed: {line}')
+
+        return ''
+
+
+###############################################################################
+# Start Interactive Console
+
+# Pass 'globals()' as local variables to pick up all the functions we have
+# defined. Manually constructing a scope would be cleaner, but this is in
+# service of an interactive console, so it doesn't matter.
+InteractiveConsole(locals=globals().copy()).interact(banner='')
