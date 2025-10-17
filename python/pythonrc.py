@@ -35,6 +35,37 @@ except AssertionError:
 
 
 ###############################################################################
+# Reload
+
+# Keep track of the path to this file so that 'reload()' can find it.
+# Technically '__file__' is not guaranteed to exist, however this file is
+# driven by the 'PYTHONSTARTUP' environment variable and must be a file.
+_THIS_FILE = __file__
+
+
+def reload(path: str | None = None):
+
+    """Reload this file.
+
+    Allows for making edits to a ``.pythonrc.py`` file somewhere in the stack
+    and reloading without restarting the interactive console.
+    """
+
+    path = os.path.expanduser(path or _THIS_FILE)
+
+    # We have no idea what will happen when we 'exec()' the file. Treat this
+    # as an exit event to get good teardown. In particular, calling 'reload()'
+    # without any arguments and without this 'atexit' call will prevent the
+    # 'reload()' call from being added to the history.
+    atexit._run_exitfuncs()
+
+    with open(path) as f:
+        # Typically '__file__' is set, but since we are executing code directly
+        # we have to do it manually.
+        exec(f.read(), {'__file__': path})
+
+
+###############################################################################
 # Aliases
 
 pp = pprint
@@ -222,8 +253,7 @@ paths = (p for p in paths if os.path.abspath(p) != os.path.abspath(__file__))
 
 for p in paths:
     if os.path.exists(p):
-        with open(p) as f:
-            exec(f.read(), globals(), locals())
+        reload(p)
 del p, paths
 
 
