@@ -10,12 +10,13 @@
 
 from __future__ import annotations
 
+import atexit
 import code
 import itertools as it
 from keyword import iskeyword
 import os
 from pprint import pprint
-import readline
+import traceback
 import subprocess as sp
 import sys
 from typing import (
@@ -41,20 +42,61 @@ stdin = sys.stdin
 
 
 ###############################################################################
-# Configure 'readline' and completion
+# Completion and 'readline' Bindings
 
-# Importing this module registers 'rlcompleter.Completer()' with 'readline'.
-import rlcompleter
-assert rlcompleter
+# Not available on some systems.
+try:
+    import readline
+except ImportError:
+    print('WARNING: no readline support', file=sys.stderr)
+    readline = None
 
-# Enable tab completion on MacOS. Python 3.13 introduced 'readline.backend',
-# which can likely replace this check.
-if 'libedit' in readline.__doc__:
-    readline.parse_and_bind("bind ^I rl_complete")
+if readline is not None:
 
-# and other platforms.
-else:
-    readline.parse_and_bind("tab: complete")
+    # https://www.gnu.org/software/bash/manual/html_node/Bindable-Readline-Commands.html
+
+    # Enable tab completion. Python 3.13 introduced 'readline.backend', which
+    # probably replaces the 'readline.__doc__' check below. Just importing
+    # 'rlcopleter' registers 'rlcompleter.Completer()'. This class can be
+    # extended.
+    import rlcompleter
+    assert rlcompleter
+    if 'libedit' in readline.__doc__:
+        # MacOS
+        readline.parse_and_bind("bind ^I rl_complete")
+    else:
+        # Other platforms
+        readline.parse_and_bind("tab: complete")
+
+    # ^r history searching
+    readline.parse_and_bind('bind ^r em-inc-search-prev')
+
+    # Load config file if it is available
+    try:
+        readline.read_init_file()
+    except OSError:
+        # Technically this could mean many things, but 'read_init_file()' seems
+        # to raise this if the config file required by the underlying library
+        # is not present. This file is probabably either '~/.inputrc' or
+        # '~/.editrc'.
+        pass
+    except Exception as e:
+        traceback.print_exc()
+        print('WARNING: Failed to load readline init file')
+
+
+###############################################################################
+# History
+
+if readline is not None:
+
+    history_path = os.path.expanduser('~/.pythonrc_history')
+
+    if os.path.exists(history_path):
+        readline.read_history_file(history_path)
+
+    atexit.register(lambda: readline.write_history_file(history_path))
+
 
 ###############################################################################
 # Functions
