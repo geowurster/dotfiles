@@ -32,11 +32,20 @@ stdin = sys.stdin
 
 
 ###############################################################################
-# Configure 'readline'
+# Configure 'readline' and completion
 
+# Importing this module registers 'rlcompleter.Completer()' with 'readline'.
+import rlcompleter
+assert rlcompleter
 
-readline.parse_and_bind("tab: complete")
+# Enable tab completion on MacOS. Python 3.13 introduced 'readline.backend',
+# which can likely replace this check.
+if 'libedit' in readline.__doc__:
+    readline.parse_and_bind("bind ^I rl_complete")
 
+# and other platforms.
+else:
+    readline.parse_and_bind("tab: complete")
 
 ###############################################################################
 # Functions
