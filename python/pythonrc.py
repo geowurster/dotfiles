@@ -24,6 +24,15 @@ from typing import (
 )
 
 
+# Do nothing if running on IPython. Lots of conflicts between this file and
+# IPython
+try:
+    assert '__IPYTHON__' in globals()
+    exit(0)
+except AssertionError:
+    pass
+
+
 ###############################################################################
 # Aliases
 
