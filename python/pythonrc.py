@@ -126,6 +126,8 @@ if readline is not None:
     if os.path.exists(history_path):
         readline.read_history_file(history_path)
 
+    readline.set_history_length(1000)
+
     atexit.register(lambda: readline.write_history_file(history_path))
 
 
