@@ -53,16 +53,27 @@ def reload(path: str | None = None):
 
     path = os.path.expanduser(path or _THIS_FILE)
 
-    # We have no idea what will happen when we 'exec()' the file. Treat this
-    # as an exit event to get good teardown. In particular, calling 'reload()'
-    # without any arguments and without this 'atexit' call will prevent the
-    # 'reload()' call from being added to the history.
-    atexit._run_exitfuncs()
-
     with open(path) as f:
+
         # Typically '__file__' is set, but since we are executing code directly
-        # we have to do it manually.
-        exec(f.read(), {'__file__': path})
+        # we have to do it manually. Note that this does not work for global
+        # variables that are set in this file since they overwrite whatever
+        # value we pass here. '__file__' only works because it is set ...
+        # somewhere in the import machinery and must have special handling.
+        globals_ = globals().copy()
+        globals_.update(__file__=path)
+
+        # Set this environment variable to avoid launching a new interactive
+        # console. We want to refresh the state of the one we have since it
+        # might have useful context.
+        key = '_RELOAD'
+        original = os.environ.get(key, None)
+        try:
+            os.environ[key] = ''
+            exec(f.read(), globals_)
+        finally:
+            if original is not None:
+                os.environ[key] = original
 
 
 ###############################################################################
@@ -370,7 +381,21 @@ class InteractiveConsole(code.InteractiveConsole):
 ###############################################################################
 # Start Interactive Console
 
-# Pass 'globals()' as local variables to pick up all the functions we have
-# defined. Manually constructing a scope would be cleaner, but this is in
-# service of an interactive console, so it doesn't matter.
-InteractiveConsole(locals=globals().copy()).interact(banner='')
+# 'reload()' sets this environment variable to indicate that we are refreshing
+# an existing session and should not launch a new one. This does mean that
+# changes to the 'InteractiveConsole()' are not picked up by 'reload()', so it
+# might be necssary to change this. If so, these calls need to be added to
+# 'reload()':
+#
+#   atexit._run_exitfuncs()
+#   readline.clear_history()
+#
+# Otherwise the history is recursively appended to the history file, and it
+# quickly becomes enormous.
+if '_RELOAD' not in os.environ:
+
+    # Pass 'globals()' as local variables to pick up all the functions we have
+    # defined. Manually constructing a scope would be cleaner, but this is in
+    # service of an interactive console, so it doesn't matter.
+    console = InteractiveConsole(locals=globals().copy())
+    console.interact(banner=os.linesep + 'kev console' + os.linesep)
