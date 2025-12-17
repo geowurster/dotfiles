@@ -93,3 +93,9 @@ vim.opt.undodir = vim.fn.stdpath("state")
 
 -- Enable mouse support in all modes
 vim.opt.mouse = "a"
+
+-------------------------------------------------------------------------------
+-- Code and Text Formatting
+
+-- Disable autoformat-on-save
+vim.g.autoformat = false
