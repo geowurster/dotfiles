@@ -158,6 +158,10 @@ while [ $# -gt 0 ]; do
     esac
 done
 
+# Some config files end up here. It is common for this directory to exist, so
+# it is safe to blindly create if it does not already exist.
+mkdir -p "${XDG_CONFIG_HOME:-$HOME/.config}"
+
 # !! Be careful with 'mapping' !!
 # It is not a true associative array. 'declare -A' was added in Bash v4, but
 # plenty of platforms still have Bash v3, so this is a hack based on:
