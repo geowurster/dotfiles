@@ -63,6 +63,9 @@ function manage-link() {
   # path is both absolute and correct.
   repo_path=$(realpath "${repo_path}")
 
+  # We will check to see if the target directory for each link exists.
+  dst_dirname=$(dirname "${home_path}")
+
   #############################################################################
   # Validate Input File
 
@@ -71,12 +74,19 @@ function manage-link() {
     return 1
 
   #############################################################################
+  # Target Directory Does Not Exist
+
+  elif [ "${link}" -eq 1 ] && [ ! -d "${dst_dirname}" ]; then
+    echo "ERROR: target basedir does not exist: ${home_path}"
+    return 1
+
+  #############################################################################
   # Link
 
   elif [ "${link}" -eq 1 ]; then
 
     # Be sure to make a _symbolic_ link.
-    cmd="ln -s ${repo_path} ${home_path}"
+    cmd="ln -s ${repo_path} '${home_path}'"
 
     if [ -e "${home_path}" ]; then
 
