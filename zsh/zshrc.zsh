@@ -46,13 +46,14 @@ unset dotfile_repo_dir
 # $WORDCHARS
 
 # Zsh considers these characters to be part of a word. The default list
-# includes '/', which makes augmenting file paths difficult. The default is:
+# includes '/-.', which makes augmenting file paths and names difficult. The
+# default is:
 #
 #   *?_-.[]~=/&;!#$%^(){}<>
 #
 # Bash has no direct equivalent, but it seems like key bindings may be able
 # to emulate most of the intended behavior?
-export WORDCHARS="*?_-.[]~=&;!#$%^(){}<>"
+export WORDCHARS="*?_[]~=&;!#$%^(){}<>"
 
 
 ###############################################################################
