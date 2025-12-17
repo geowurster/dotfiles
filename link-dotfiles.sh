@@ -10,6 +10,10 @@
 set -eu -o pipefail
 
 
+# This is kind of hard to get right, and we need it in several places.
+CONFIG_HOME="${XDG_CONFIG_HOME:-${HOME}/.config}"
+
+
 ###############################################################################
 # Mapping
 
@@ -29,11 +33,16 @@ mapping=(
   "bash/bashrc.sh:${HOME}/.bashrc"
   "bash/bash_profile.sh:${HOME}/.bash_profile"
   # "editorconfig/editorconfig.ini:${HOME}/.editorconfig"
-  "ghostty:${XDG_CONFIG_HOME:-${HOME}}/.config/ghostty"
+
+  "ghostty:${CONFIG_HOME}/ghostty"
+
   "git/gitconfig.ini:${HOME}/.gitconfig"
   "git/gitignore-global.ini:${HOME}/.gitignore-global"
-  "nvim:${XDG_CONFIG_HOME:-${HOME}}/.config/nvim"
+
+  "nvim:${CONFIG_HOME}/nvim"
+
   "python/pythonrc.py:${HOME}/.pythonrc.py"
+
   "zsh/zlogin.zsh:${HOME}/.zlogin"
   "zsh/zlogout.zsh:${HOME}/.zlogout"
   "zsh/zprofile.zsh:${HOME}/.zprofile"
@@ -174,7 +183,7 @@ done
 
 # Some config files end up here. It is common for this directory to exist, so
 # it is safe to blindly create if it does not already exist.
-mkdir -p "${XDG_CONFIG_HOME:-$HOME/.config}"
+mkdir -p "${CONFIG_HOME}"
 
 
 ###############################################################################
