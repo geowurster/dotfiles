@@ -158,9 +158,17 @@ while [ $# -gt 0 ]; do
     esac
 done
 
+
+###############################################################################
+# Create Required Directories
+
 # Some config files end up here. It is common for this directory to exist, so
 # it is safe to blindly create if it does not already exist.
 mkdir -p "${XDG_CONFIG_HOME:-$HOME/.config}"
+
+
+###############################################################################
+# Link Files
 
 # !! Be careful with 'mapping' !!
 # It is not a true associative array. 'declare -A' was added in Bash v4, but
