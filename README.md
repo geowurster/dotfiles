@@ -24,6 +24,18 @@ Some environments have `zsh` and some have `bash`. Support for both is included,
 
 ## References
 
+### [Homebrew](https://brew.sh)
+
+MacOS package manager.
+
+Supports installing from a file listing dependencies ([`Brewfile`](Brewfile)) with:
+
+```console
+# Reads 'Brewfile' from the current directory, and probably a few other
+# fallback locations.
+$ brew bundle install
+```
+
 ### [`bash`](https://www.gnu.org/software/bash/)
 
 Bourne Again SHell
