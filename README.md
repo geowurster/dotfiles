@@ -171,4 +171,4 @@ This generally applies for other terminal emulators.
 ### Todo
 
 * Consider more advanced completion like [`prezto`](https://github.com/sorin-ionescu/prezto/tree/master/modules/completion). Note that this includes a caching mechanism that is triggered in [`.zlogin`](zsh/dot-zlogin).
-
+* Auto-indentation in [`pythonrc.py`](python/pythonrc.py)
