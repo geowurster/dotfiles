@@ -35,6 +35,47 @@ except AssertionError:
 
 
 ###############################################################################
+# Help
+
+def kev(interactive=False):
+
+    """Print help about the 'kev' console."""
+
+    print(f"""
+    Features
+        Autocomplete
+        History
+        ^r history searching
+
+    Magic
+        %paste variable     Assign system clipboard contents to 'variable'.
+        ! command           Execute 'command' in the parent shell.
+        reference?          help(reference)
+        kev                 Print help.
+        exit                exit()
+    
+    Functions
+        cat()       Get the contents of a file.
+        head()      Get the first N lines of a file.
+        paste()     Get contents of system clipboard.
+        reload()    Reload this environment.
+        sh()        Execute a shell command.
+        tail()      Get the last N lines of a file.
+
+    Aliases
+        pp      pprint.pprint()
+        stdin   sys.stdin
+    """.rstrip(' '))
+
+    # The 'InteractiveConsole()' machinery has some magic to invoke this
+    # function automatically, and it expects a string to be returned.
+    if interactive:
+        return ''
+    else:
+        return None
+
+
+###############################################################################
 # Reload
 
 # Keep track of the path to this file so that 'reload()' can find it.
@@ -290,6 +331,9 @@ class InteractiveConsole(code.InteractiveConsole):
 
         if stripped == 'exit':
             raise SystemExit(0)
+
+        elif stripped == 'kev':
+            return kev(interactive=True)
 
         elif stripped.startswith('%paste'):
             return self._paste(line)
