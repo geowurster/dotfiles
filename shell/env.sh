@@ -10,6 +10,7 @@ source "$(_dotfile_repo_dirname)/shell/env-path.sh"
 # 'bash' over SSH
 if [ -v BASH_VERSINFO ] && [ -v SSH_TTY ]; then
 
+  # Prompt builder: https://bash-prompt-generator.org
   # wursterk@b2 dirname $
   # green       blue    white
   PS1="\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\W\[\033[00m\] \$ "
@@ -17,6 +18,7 @@ if [ -v BASH_VERSINFO ] && [ -v SSH_TTY ]; then
 # 'bash'
 elif [ -v BASH_VERSINFO ]; then
 
+  # Prompt builder: https://bash-prompt-generator.org
   # dirname $
   # blue    white
   PS1="\[\033[01;34m\]\W\[\033[00m\] \$ "

@@ -44,6 +44,8 @@ Bourne Again SHell
 * [Completion](https://www.gnu.org/software/bash/manual/bash.html#Programmable-Completion)
 * [Completion builtins](https://www.gnu.org/software/bash/manual/bash.html#Programmable-Completion-Builtins)
 * [Completion examples](https://www.gnu.org/software/bash/manual/bash.html#A-Programmable-Completion-Example)
+* [Prompt Generator](https://bash-prompt-generator.org)
+
 
 ### [`editorconfig`](https://editorconfig.org)
 
