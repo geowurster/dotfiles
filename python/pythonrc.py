@@ -428,7 +428,7 @@ class InteractiveConsole(code.InteractiveConsole):
 # 'reload()' sets this environment variable to indicate that we are refreshing
 # an existing session and should not launch a new one. This does mean that
 # changes to the 'InteractiveConsole()' are not picked up by 'reload()', so it
-# might be necssary to change this. If so, these calls need to be added to
+# might be necessary to change this. If so, these calls need to be added to
 # 'reload()':
 #
 #   atexit._run_exitfuncs()
