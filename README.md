@@ -57,11 +57,23 @@ Universal-ish editor configuration.
 * [List of all properties](https://github.com/editorconfig/editorconfig/wiki/EditorConfig-Properties)
 
 
+### [`ghostty`](https://ghostty.org)
+
+Fancy, modern terminal emulator.
+
+
 ### [`git`](http://git-scm.com)
 
 Version control
 
 * [Git manual](https://git-scm.com/docs/user-manual.html)
+
+
+### [`iTerm`](https://iterm2.org)
+
+Modern terminal emulator.
+
+* To enable things like skipping/deleting one word forward/back: Settings -> Profiles -> Keys -> Key Bindings -> Presets -> Natural Text Editing
 
 
 ### [`neovim`](https://neovim.io)
