@@ -1,11 +1,13 @@
-# Configure interactive Python sessions.
-#
-# Consider keeping imports fast.
-#
-# References:
-#   - https://nedbatchelder.com/blog/201904/startuppy.html
-#   - https://docs.python.org/3/using/cmdline.html#envvar-PYTHONSTARTUP
-#   - https://github.com/lonetwin/pythonrc/blob/master/pythonrc.py
+"""Configure interactive Python sessions.
+
+Consider keeping imports fast. Keep the 'kev()' function updated with help
+information.
+
+References:
+  - https://nedbatchelder.com/blog/201904/startuppy.html
+  - https://docs.python.org/3/using/cmdline.html#envvar-PYTHONSTARTUP
+  - https://github.com/lonetwin/pythonrc/blob/master/pythonrc.py
+"""
 
 
 from __future__ import annotations
