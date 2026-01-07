@@ -14,37 +14,46 @@ fi
 
 function vactivate() {
 
-  # Activate a virtual environment in a standard location.
+  # Activate a virtual environment. Defaults to looking in the current
+  # directory for 'venv' and '.venv'.
 
-  DEFAULT_VENV="venv/bin/activate"
+  names=()
 
-  # No arguments - look in current directory for 'venv'
+  # User did not provide an environment. Look for one.
   if [ $# -eq 0 ]; then
-      if [ -f "${DEFAULT_VENV}" ]; then
-          source "${DEFAULT_VENV}"
-          return 0
-      else
-          echo "Error: Cannot find venv: ${DEFAULT_VENV}"
-          return 1
-      fi
+    names=(
+      ".venv"
+      "venv"
+    )
 
-  # User supplied a venv - attempt to activate if it exists
-  elif [[ $# -eq 1 ]]; then
-      VENV="${1}/bin/activate"
-      if [[ -f "${VENV}" ]]; then
-          source "${VENV}"
-          return 0
-      else
-          echo "Error: Cannot find : ${VENV}"
-          return 1
-      fi
+  # User provided an environment
+  elif [ $# -eq 1 ]; then
+    names=(
+      "${0}"
+    )
 
-  # Too many arguments - print usage
   else
-      echo ""
-      echo "Usage: vactivate [path/to/venv]"
-      echo ""
-      return 1
+    echo ""
+    echo "Usage: vactivate [path/to/venv]"
+    echo ""
+    return 1
+  fi
+
+  activated=0
+  for name in "${names[@]}"; do
+
+    activate="${name}/bin/activate"
+
+    if [ -f "${activate}" ]; then
+      source "${activate}"
+      activated=1
+    fi
+
+  done
+
+  if [ "${activated}" -ne 1 ]; then
+    echo "ERROR: did not find an environment: ${names[@]}"
+    return 1
   fi
 
 }
