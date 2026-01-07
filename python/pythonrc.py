@@ -15,6 +15,10 @@ References:
 
 from __future__ import annotations
 
+# Do nothing on IPython. A work in progress.
+# if 'get_ipython' in locals():
+#     exit()
+
 import atexit
 import code
 import itertools as it
@@ -28,15 +32,6 @@ from typing import (
     BinaryIO,
     TextIO
 )
-
-
-# Do nothing if running on IPython. Lots of conflicts between this file and
-# IPython
-try:
-    assert '__IPYTHON__' in globals()
-    exit(0)
-except AssertionError:
-    pass
 
 
 ###############################################################################
