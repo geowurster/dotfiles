@@ -4,9 +4,12 @@ Consider keeping imports fast. Keep the 'kev()' function updated with help
 information.
 
 References:
-  - https://nedbatchelder.com/blog/201904/startuppy.html
+  - https://dlo.me/archives/2014/09/08/pythonrc/
   - https://docs.python.org/3/using/cmdline.html#envvar-PYTHONSTARTUP
+  - https://github.com/0xf4/pythonrc/blob/master/pythonrc.py
   - https://github.com/lonetwin/pythonrc/blob/master/pythonrc.py
+  - https://github.com/whiteinge/dotfiles/blob/master/.pythonrc.py
+  - https://nedbatchelder.com/blog/201904/startuppy.html
 """
 
 
