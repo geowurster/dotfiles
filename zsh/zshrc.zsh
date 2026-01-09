@@ -175,6 +175,15 @@ fi
 
 
 ###############################################################################
+# Edit Command
+
+# Note that Zsh does not automatically execute the command, while Bash does.
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '^x^e' edit-command-line
+
+
+###############################################################################
 # Local Overrides
 
 # Source '~/.zshrc_local' if it exists
