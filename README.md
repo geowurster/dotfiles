@@ -61,6 +61,11 @@ Universal-ish editor configuration.
 
 Fancy, modern terminal emulator.
 
+All config values can be printed with:
+
+```bash
+ghostty +show-config --default --docs
+```
 
 ### [`git`](http://git-scm.com)
 
