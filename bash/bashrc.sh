@@ -21,7 +21,7 @@ function _dotfile_repo_dirname(){
   source_dir="${BASH_SOURCE[0]}"
   source_dir=$(realpath "${source_dir}")
   source_dir=$(dirname "${source_dir}")
-  source_dir=$(dirname "${source_dir}/..")
+  source_dir=$(realpath "${source_dir}/..")
 
   echo "${source_dir}"
 }
