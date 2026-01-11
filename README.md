@@ -81,6 +81,14 @@ Modern terminal emulator.
 * To enable things like skipping/deleting one word forward/back: Settings -> Profiles -> Keys -> Key Bindings -> Presets -> Natural Text Editing
 
 
+### [`Nano`](https://nano-editor.org)
+
+Unix text editor.
+
+* Not all versions of Nano support a configuration file. For example, macOS 15 ships with 5.09, which does not. Recommend getting a newer version from a package manager.
+* [Configuration](https://www.nano-editor.org/dist/latest/nanorc.5.html)
+
+
 ### [`neovim`](https://neovim.io)
 
 A fork of [`vim`](https://www.vim.org) providing most of the same features through a smaller code base. Supports plugins written in [Lua](https://www.lua.org).

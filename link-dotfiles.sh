@@ -39,6 +39,7 @@ mapping=(
   "git/gitconfig.ini:${HOME}/.gitconfig"
   "git/gitignore-global.ini:${HOME}/.gitignore-global"
 
+  "nano:${CONFIG_HOME}/nano"
   "nvim:${CONFIG_HOME}/nvim"
 
   "python/pythonrc.py:${HOME}/.pythonrc.py"
