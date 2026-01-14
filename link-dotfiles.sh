@@ -197,5 +197,10 @@ mkdir -p "${CONFIG_HOME}"
 for item in "${mapping[@]}"; do
   repo_path="${item%%:*}"
   home_path="${item#*:}"
+
+  # Gracefully link as many files as possible.
+  set +e
   manage-link "${repo_path}" "${home_path}" "${link}" "${dry_run}"
+  set -e
+
 done
