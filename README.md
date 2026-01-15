@@ -29,7 +29,7 @@ Some environments have `zsh` and some have `bash`. Support for both is included,
 
 ### [Homebrew](https://brew.sh)
 
-MacOS package manager.
+macOS package manager.
 
 Supports installing from a file listing dependencies ([`Brewfile`](Brewfile)) with:
 
@@ -174,18 +174,18 @@ From the [Zsh docs](http://zsh.sourceforge.net/Intro/intro_3.html):
 ## References
 
 * Brandon Rhodes's [`homedir`](https://github.com/brandon-rhodes/homedir/blob/master/.zshrc) repository.
-* Mathias Bynens's [MacOS Configuration](https://github.com/mathiasbynens/dotfiles/blob/master/.macos).
+* Mathias Bynens's [macOS Configuration](https://github.com/mathiasbynens/dotfiles/blob/master/.macos).
 
 
-## MacOS
+## macOS
 
 
-### Disabling Smart Dash Conversions MacOS Slack
+### Disabling Smart Dash Conversions macOS Slack
 
 Edit -> Substitutions -> Smart Dashes
 
 
-### Change MacOS Terminal.app Default Shell
+### Change macOS Terminal.app Default Shell
 
 This generally applies for other terminal emulators.
 

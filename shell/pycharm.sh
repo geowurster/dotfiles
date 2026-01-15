@@ -8,7 +8,7 @@
 
 function charm() {
 
-  # MacOS
+  # macOS
   if [ -x $(which open) ]; then
 
     APPLICATIONS=(

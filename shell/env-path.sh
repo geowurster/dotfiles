@@ -46,7 +46,7 @@ fi
 ###############################################################################
 # Python
 
-# MacOS
+# macOS
 if [ "$(uname -s)" = "Darwin" ]; then
 
   # We do not want Homebrew's '$ python'. It changes too often.
@@ -61,7 +61,7 @@ fi
 # Ruby
 
 # I cannot remember exactly why this is exists. I think it was due to a problem
-# with a 'TextMate.app' plugin on MacOS finding the OS's outdated version of
+# with a 'TextMate.app' plugin on macOS finding the OS's outdated version of
 # Ruby, and a theory that the plugin would work if pointed to a newer version
 # installed via Homebrew.
 

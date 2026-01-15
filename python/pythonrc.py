@@ -145,7 +145,7 @@ if readline is not None:
     import rlcompleter
     assert rlcompleter
     if 'libedit' in readline.__doc__:
-        # MacOS
+        # macOS
         readline.parse_and_bind("bind ^I rl_complete")
     else:
         # Other platforms
@@ -226,7 +226,7 @@ def paste(encoding: str | None = 'utf-8') -> str:
 
     """Paste from the OS's paste utility.
 
-    On MacOS this is ``$ pbpaste``.
+    On macOS this is ``$ pbpaste``.
 
     Use ``encoding=None`` to get binary data.
     """

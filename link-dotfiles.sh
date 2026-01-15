@@ -2,7 +2,7 @@
 
 
 # Note that in some cases '/bin/bash' may not be the same version as provided
-# by '$ bash'. For example, MacOS Ships with Bash v3, but a much more recent
+# by '$ bash'. For example, macOS Ships with Bash v3, but a much more recent
 # version can be provided by Homebrew. This script should probably be as
 # portable as possible.
 
