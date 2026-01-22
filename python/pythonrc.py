@@ -15,9 +15,19 @@ References:
 
 from __future__ import annotations
 
-# Do nothing on IPython. A work in progress.
-# if 'get_ipython' in locals():
-#     exit()
+import sys
+
+# Do nothing when being invoked by IPython, or an embedded version of the
+# interactive interpreter. It is possible to use a 'PYTHONSTARTUP' file with
+# IPython as well:
+#
+#   https://ipython.readthedocs.io/en/stable/interactive/reference.html#ipython-as-your-default-python-environment
+#
+if 'get_ipython' in globals():
+    # When running on IPython 'exit' is a special IPython object that behaves
+    # differently.
+    sys.exit(0)
+
 
 import atexit
 import code
