@@ -1,5 +1,12 @@
 # `dotfiles`
 
+## Themes
+
+* [macOS Terminal.app themes](https://github.com/lysyi3m/macos-terminal-themes)
+* [iTerm themes](https://iterm2colorschemes.com)
+* [Catppuccin](https://catppuccin.com)
+* [Dracula](https://draculatheme.com)
+
 ## Setup
 
 Dotfiles are managed with the [`link-dotfiles.sh`](link-dotfiles.sh) script. Add the `--dry-run` flag to operate in a mode where nothing happens, but information about what _would_ have happened is emitted.
