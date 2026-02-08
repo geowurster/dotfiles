@@ -48,6 +48,7 @@
 # Optional local config file
 config-file = ?config-local
 
+# Set light and dark mode themes.
 theme = light:Catppuccin Latte,dark:Catppuccin Frappe
 
 # Trims trailing whitespace on data that is copied to the clipboard. This does
