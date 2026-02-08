@@ -192,6 +192,11 @@ This generally applies for other terminal emulators.
 
 Custom scripts and executables. This directory is added to `$PATH` through some of the common [`shell`](shell/) machinery.
 
+## Fonts
+
+* [Berkeley Mono](https://usgraphics.com/products/berkeley-mono)
+* [Depature Mono](https://departuremono.com/)
+* [Iosevka](https://typeof.net/Iosevka/)
 
 ## Todo
 
