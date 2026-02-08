@@ -29,8 +29,8 @@ vim.opt.splitright = true
 -- Open horizontal splits below
 vim.opt.splitbelow = true
 
--- Keep 8 lines above/below cursor when scrolling
-vim.opt.scrolloff = 8
+-- Keep N lines above/below cursor when scrolling
+vim.opt.scrolloff = 3
 
 -- True color support
 vim.opt.termguicolors = true
@@ -40,6 +40,7 @@ vim.opt.termguicolors = true
 
 -- Maintain indent of current line on new lines
 vim.opt.autoindent = true
+vim.opt.copyindent = true
 
 -- Use spaces instead of tabs
 vim.opt.expandtab = true
@@ -56,10 +57,8 @@ vim.opt.tabstop = 4
 -------------------------------------------------------------------------------
 -- Search Settings
 
--- Case-insensitive search by default...
+-- Case-insensitive search unless a capital letter is used
 vim.opt.ignorecase = true
-
--- ... but case-sensitive if query contains capital letters
 vim.opt.smartcase = true
 
 -- Incremental search (find as you type)
@@ -93,6 +92,9 @@ vim.opt.undodir = vim.fn.stdpath("state")
 
 -- Enable mouse support in all modes
 vim.opt.mouse = "a"
+
+-- Limit popup menu to 5 items
+vim.opt.pumheight = 5
 
 -------------------------------------------------------------------------------
 -- Code and Text Formatting

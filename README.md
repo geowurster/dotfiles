@@ -127,6 +127,7 @@ A fork of [`vim`](https://www.vim.org) providing most of the same features throu
 * [LazyVim](https://www.lazyvim.org) - both a plugin manager and a distribution.
 * [FAQ](https://neovim.io/doc/user/faq.html#faq)
 * [Lua in Neovim](https://neovim.io/doc/user/lua.html)
+* [vale.rocks] - How I configure NeoVIM
 
 #### Testing Different Configurations
 
